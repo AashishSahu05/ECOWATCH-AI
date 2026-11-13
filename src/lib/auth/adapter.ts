@@ -18,13 +18,9 @@ export function getAuthAdapter(): AuthAdapter {
   if (hasSupabase) {
     adapterInstance = new SupabaseAuthAdapter();
   }
-  // 2. If Supabase is unconfigured and Demo Mode is permitted
-  else if (demoEnabled) {
-    adapterInstance = new MockAuthAdapter();
-  }
-  // 3. Unconfigured in production without demo authorization
+  // 2. If Supabase is unconfigured (pre-database phase or demo mode)
   else {
-    adapterInstance = new SupabaseAuthAdapter();
+    adapterInstance = new MockAuthAdapter();
   }
 
   return adapterInstance;

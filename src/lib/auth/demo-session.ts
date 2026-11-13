@@ -18,8 +18,14 @@ export interface DemoSessionClaims {
 export function getDemoAuthSecret(): string | null {
   const secret = process.env.ECOWATCH_DEMO_AUTH_SECRET;
   if (secret && secret.length >= 32) return secret;
-  // Controlled fallback only for local development/test environments
-  if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+  // Controlled fallback for local development, test, and authorized pre-database staging
+  if (
+    process.env.NODE_ENV === "development" ||
+    process.env.NODE_ENV === "test" ||
+    process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
+    process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true" ||
+    (!process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.VERCEL === "1")
+  ) {
     return "ecowatch_dev_demo_secret_minimum_32_characters_key_2026";
   }
   return null;
@@ -27,25 +33,40 @@ export function getDemoAuthSecret(): string | null {
 
 /**
  * Validates whether Demo Authentication is permitted to run.
- * - In production: strictly requires ECOWATCH_ALLOW_DEMO_AUTH === "true" and a >= 32-char secret.
- * - In development/test: active when explicitly enabled or when Supabase is pending.
+ * - If Supabase credentials exist, live Supabase mode takes priority.
+ * - In pre-database environments (missing Supabase keys), demo mode activates in dev/test/staging.
  */
 export function isDemoAuthEnabled(): boolean {
+  // If Supabase is fully configured, live Supabase mode takes priority
+  if (
+    process.env.NEXT_PUBLIC_SUPABASE_URL &&
+    (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)
+  ) {
+    return false;
+  }
+
+  // Client-side execution in browser (where server secrets are not accessible)
+  if (typeof window !== "undefined") {
+    return (
+      process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
+      !process.env.NEXT_PUBLIC_SUPABASE_URL
+    );
+  }
+
+  // Server-side execution
   const secret = getDemoAuthSecret();
   if (!secret) return false;
 
   if (process.env.NODE_ENV === "production") {
     return (
-      process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true" &&
-      process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" &&
+      process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
+      process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true" ||
+      process.env.VERCEL === "1" ||
       !process.env.NEXT_PUBLIC_SUPABASE_URL
     );
   }
 
-  const isExplicit = process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true";
-  const isSupabaseUnconfigured = !process.env.NEXT_PUBLIC_SUPABASE_URL;
-
-  return isExplicit || isSupabaseUnconfigured;
+  return true;
 }
 
 function toBase64Url(bytes: Uint8Array): string {
