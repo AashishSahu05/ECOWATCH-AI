@@ -12,7 +12,7 @@ export default function RootEntryPage() {
   return (
     <AuthSplitLayout
       heading="Welcome to EcoWatch AI"
-      subheading="Select your authorized municipal role or sign in with your credentials to access your console."
+      subheading="Sign in to access your ecological monitoring and municipal console."
     >
       <Suspense
         fallback={

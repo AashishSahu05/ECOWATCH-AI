@@ -71,7 +71,8 @@ async function run() {
   const claims = { sub: "citizen-1", name: "Test Citizen", role: "citizen" as const, exp: Math.floor(Date.now() / 1000) + 60 };
   const token = await signDemoSession(claims, "test-only-secret-that-is-long-enough-32");
   assert(Boolean(await verifyDemoSession(token, "test-only-secret-that-is-long-enough-32")), "Signed development session verifies");
-  assert(await verifyDemoSession(`${token.slice(0, -1)}x`, "test-only-secret-that-is-long-enough-32") === null, "Tampered development session is rejected");
+  const tamperedToken = `${token.slice(0, -1)}${token.endsWith("a") ? "b" : "a"}`;
+  assert(await verifyDemoSession(tamperedToken, "test-only-secret-that-is-long-enough-32") === null, "Tampered development session is rejected");
 
   const citizen = request("http://localhost/api/operations/gaps", "citizen", "citizen-1");
   let citizenForbidden = false;

@@ -37,36 +37,21 @@ export function getDemoAuthSecret(): string | null {
  * - In pre-database environments (missing Supabase keys), demo mode activates in dev/test/staging.
  */
 export function isDemoAuthEnabled(): boolean {
-  // If Supabase is fully configured, live Supabase mode takes priority
+  // If explicitly enabled by configuration flag, demo authentication is active
   if (
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY)
+    process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
+    process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true"
   ) {
-    return false;
+    return true;
   }
 
-  // Client-side execution in browser (where server secrets are not accessible)
-  if (typeof window !== "undefined") {
-    return (
-      process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
-      !process.env.NEXT_PUBLIC_SUPABASE_URL
-    );
+  // In development / test, active by default
+  if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+    return true;
   }
 
-  // Server-side execution
-  const secret = getDemoAuthSecret();
-  if (!secret) return false;
-
-  if (process.env.NODE_ENV === "production") {
-    return (
-      process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
-      process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true" ||
-      process.env.VERCEL === "1" ||
-      !process.env.NEXT_PUBLIC_SUPABASE_URL
-    );
-  }
-
-  return true;
+  // In production without explicit flag, active only if Supabase is unconfigured
+  return !process.env.NEXT_PUBLIC_SUPABASE_URL;
 }
 
 function toBase64Url(bytes: Uint8Array): string {

@@ -24,7 +24,7 @@ interface AuthSplitLayoutProps {
 export function AuthSplitLayout({
   children,
   heading = "Welcome to EcoWatch AI",
-  subheading = "Select your authorized municipal role or sign in with your credentials to access your console.",
+  subheading = "Sign in to access your ecological monitoring and municipal console.",
   isRegister = false,
 }: AuthSplitLayoutProps) {
   const router = useRouter();
