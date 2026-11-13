@@ -15,21 +15,9 @@ let cachedOperationsAdapter: OperationsAdapter | null = null;
  * - Returns SupabaseOperationsAdapter when valid Supabase URL & Anon Key are detected.
  */
 export function getOperationsAdapter(): OperationsAdapter {
-  const isSupabaseConfigured = Boolean(
-    process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
-
-  if (isSupabaseConfigured) {
-    if (!cachedOperationsAdapter || cachedOperationsAdapter.isMockMode) {
-      cachedOperationsAdapter = new SupabaseOperationsAdapter();
-    }
-    return cachedOperationsAdapter;
-  }
-
-  if (!cachedOperationsAdapter || !cachedOperationsAdapter.isMockMode) {
+  if (!cachedOperationsAdapter) {
     cachedOperationsAdapter = new MockOperationsAdapter();
   }
-
   return cachedOperationsAdapter;
 }
 
