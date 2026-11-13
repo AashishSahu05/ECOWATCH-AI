@@ -11,10 +11,41 @@ export interface DemoSessionClaims {
   exp: number;
 }
 
+/**
+ * Resolves the secret used for HMAC-SHA256 demo session signing.
+ * Strictly requires a minimum of 32 characters for cryptographic integrity.
+ */
+export function getDemoAuthSecret(): string | null {
+  const secret = process.env.ECOWATCH_DEMO_AUTH_SECRET;
+  if (secret && secret.length >= 32) return secret;
+  // Controlled fallback only for local development/test environments
+  if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+    return "ecowatch_dev_demo_secret_minimum_32_characters_key_2026";
+  }
+  return null;
+}
+
+/**
+ * Validates whether Demo Authentication is permitted to run.
+ * - In production: strictly requires ECOWATCH_ALLOW_DEMO_AUTH === "true" and a >= 32-char secret.
+ * - In development/test: active when explicitly enabled or when Supabase is pending.
+ */
 export function isDemoAuthEnabled(): boolean {
-  return process.env.NODE_ENV === "development" &&
-    process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" &&
-    Boolean(process.env.ECOWATCH_DEMO_AUTH_SECRET && process.env.ECOWATCH_DEMO_AUTH_SECRET.length >= 32);
+  const secret = getDemoAuthSecret();
+  if (!secret) return false;
+
+  if (process.env.NODE_ENV === "production") {
+    return (
+      process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true" &&
+      process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" &&
+      !process.env.NEXT_PUBLIC_SUPABASE_URL
+    );
+  }
+
+  const isExplicit = process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true";
+  const isSupabaseUnconfigured = !process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  return isExplicit || isSupabaseUnconfigured;
 }
 
 function toBase64Url(bytes: Uint8Array): string {
@@ -30,7 +61,13 @@ function fromBase64Url(value: string): ArrayBuffer {
 }
 
 async function signingKey(secret: string): Promise<CryptoKey> {
-  return crypto.subtle.importKey("raw", new TextEncoder().encode(secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign", "verify"]);
+  return crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign", "verify"]
+  );
 }
 
 export async function signDemoSession(claims: DemoSessionClaims, secret: string): Promise<string> {

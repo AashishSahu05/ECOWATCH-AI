@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 export function ForgotPasswordForm() {
-  const { requestPasswordReset } = useAuth();
+  const { requestPasswordReset, isMockMode } = useAuth();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -80,7 +80,18 @@ export function ForgotPasswordForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <div className="space-y-4">
+      {/* Demo Mode Notice */}
+      {isMockMode && (
+        <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 flex items-start gap-2">
+          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <p className="leading-snug">
+            <strong className="font-manrope">Demo Environment Notice:</strong> Database persistence and live SMTP dispatch are pending. Submitting this form simulates password recovery without sending real emails.
+          </p>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} noValidate className="space-y-4">
       {error && (
         <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 flex items-start gap-2 animate-in fade-in">
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-600" />
@@ -139,6 +150,7 @@ export function ForgotPasswordForm() {
         </Link>
       </div>
     </form>
+    </div>
   );
 }
 

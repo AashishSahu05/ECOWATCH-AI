@@ -1,6 +1,8 @@
 import { AuthAdapter } from "./types";
 import { MockAuthAdapter } from "./mock-adapter";
 import { SupabaseAuthAdapter } from "./supabase-adapter";
+import { hasSupabaseConfiguration } from "@/lib/supabase/client";
+import { isDemoAuthEnabled } from "./demo-session";
 
 let adapterInstance: AuthAdapter | null = null;
 
@@ -9,24 +11,27 @@ export function getAuthAdapter(): AuthAdapter {
     return adapterInstance;
   }
 
-  // The demo adapter is only selectable in development/test. A production build
-  // must never silently present demo authentication as a real account.
-  const hasSupabaseCredentials =
-    Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) &&
-    Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  const hasSupabase = hasSupabaseConfiguration();
+  const demoEnabled = isDemoAuthEnabled();
 
-  const mockAuthEnabled = process.env.NODE_ENV === "test" || (
-    process.env.NODE_ENV === "development" && process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true"
-  );
-
-  if (hasSupabaseCredentials || !mockAuthEnabled) {
+  // 1. If real Supabase credentials exist, bind to SupabaseAuthAdapter
+  if (hasSupabase) {
     adapterInstance = new SupabaseAuthAdapter();
-  } else {
+  }
+  // 2. If Supabase is unconfigured and Demo Mode is permitted
+  else if (demoEnabled) {
     adapterInstance = new MockAuthAdapter();
+  }
+  // 3. Unconfigured in production without demo authorization
+  else {
+    adapterInstance = new SupabaseAuthAdapter();
   }
 
   return adapterInstance;
 }
 
-export const auth = getAuthAdapter();
+export function resetAuthAdapterCache(): void {
+  adapterInstance = null;
+}
 
+export const auth = getAuthAdapter();

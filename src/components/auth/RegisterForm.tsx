@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 
 export function RegisterForm() {
   const router = useRouter();
-  const { signUp, user, isLoading } = useAuth();
+  const { signUp, isMockMode, user, isLoading } = useAuth();
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -108,6 +108,16 @@ export function RegisterForm() {
 
   return (
     <div className="space-y-3.5">
+      {/* Demo Mode Notice */}
+      {isMockMode && (
+        <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-[11px] text-amber-900 flex items-start gap-2">
+          <AlertCircle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+          <p className="leading-snug">
+            <strong className="font-manrope">Demo Environment Notice:</strong> Database persistence is pending. Accounts created during this session are stored locally and will reset when the server restarts. To test municipal roles, use the pre-configured accounts on the <Link href="/login" className="underline font-bold text-amber-900">Sign In page</Link>.
+          </p>
+        </div>
+      )}
+
       {/* Role Policy Banner */}
       <div className="p-2.5 rounded-xl bg-brand-mint-cream/80 border border-brand-soft-sage text-[11px] text-brand-muted-slate flex items-start gap-2">
         <ShieldCheck className="w-3.5 h-3.5 text-brand-fresh-green shrink-0 mt-0.5" />

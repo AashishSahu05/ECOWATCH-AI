@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
-import { DEMO_SESSION_COOKIE, isDemoAuthEnabled, verifyDemoSession } from "@/lib/auth/demo-session";
+import { DEMO_SESSION_COOKIE, isDemoAuthEnabled, verifyDemoSession, getDemoAuthSecret } from "@/lib/auth/demo-session";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   let isAuthenticated = false;
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   // 1. Supabase Mode: Session refresh & user retrieval using @supabase/ssr
   if (supabaseUrl && supabaseAnonKey) {
@@ -58,9 +58,8 @@ export async function middleware(request: NextRequest) {
 
   if (!supabaseUrl && isDemoAuthEnabled()) {
     const token = request.cookies.get(DEMO_SESSION_COOKIE)?.value;
-    const claims = token
-      ? await verifyDemoSession(token, process.env.ECOWATCH_DEMO_AUTH_SECRET!)
-      : null;
+    const secret = getDemoAuthSecret();
+    const claims = token && secret ? await verifyDemoSession(token, secret) : null;
     if (claims) {
       isAuthenticated = true;
       userRole = claims.role;

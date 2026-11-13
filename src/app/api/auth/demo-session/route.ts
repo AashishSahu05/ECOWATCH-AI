@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { DEMO_USERS } from "@/lib/auth/mock-adapter";
-import { DEMO_SESSION_COOKIE, isDemoAuthEnabled, signDemoSession, verifyDemoSession } from "@/lib/auth/demo-session";
+import { DEMO_SESSION_COOKIE, isDemoAuthEnabled, signDemoSession, verifyDemoSession, getDemoAuthSecret } from "@/lib/auth/demo-session";
 
 const SignInSchema = z.object({ mode: z.literal("signin"), email: z.string().email(), password: z.string().min(1) });
 const SignUpSchema = z.object({ mode: z.literal("signup"), email: z.string().email(), fullName: z.string().trim().min(1).max(100) });
@@ -12,7 +12,7 @@ function disabled() {
 
 export async function GET(request: NextRequest) {
   if (!isDemoAuthEnabled()) return disabled();
-  const secret = process.env.ECOWATCH_DEMO_AUTH_SECRET!;
+  const secret = getDemoAuthSecret()!;
   const token = request.cookies.get(DEMO_SESSION_COOKIE)?.value;
   const claims = token ? await verifyDemoSession(token, secret) : null;
   if (!claims) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -56,7 +56,8 @@ export async function POST(request: NextRequest) {
   }
 
   const exp = Math.floor(Date.now() / 1000) + 60 * 60;
-  const token = await signDemoSession({ sub: identity.id, name: identity.name, role: identity.role, ward: identity.ward, exp }, process.env.ECOWATCH_DEMO_AUTH_SECRET!);
+  const secret = getDemoAuthSecret()!;
+  const token = await signDemoSession({ sub: identity.id, name: identity.name, role: identity.role, ward: identity.ward, exp }, secret);
   const response = NextResponse.json({ user: { ...identity, email, createdAt: new Date().toISOString() }, expiresAt: exp * 1000 }, { headers: { "Cache-Control": "no-store" } });
   response.cookies.set(DEMO_SESSION_COOKIE, token, {
     httpOnly: true,

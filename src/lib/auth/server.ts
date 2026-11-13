@@ -1,5 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
-import { DEMO_SESSION_COOKIE, isDemoAuthEnabled, verifyDemoSession } from "./demo-session";
+import { DEMO_SESSION_COOKIE, isDemoAuthEnabled, verifyDemoSession, getDemoAuthSecret } from "./demo-session";
 import type { UserRole } from "./types";
 
 export interface ServerIdentity {
@@ -43,8 +43,9 @@ export async function getServerIdentity(
       .map((part) => part.trim())
       .find((part) => part.startsWith(`${DEMO_SESSION_COOKIE}=`))
       ?.slice(DEMO_SESSION_COOKIE.length + 1);
-    if (token) {
-      const claims = await verifyDemoSession(decodeURIComponent(token), process.env.ECOWATCH_DEMO_AUTH_SECRET!);
+    const secret = getDemoAuthSecret();
+    if (token && secret) {
+      const claims = await verifyDemoSession(decodeURIComponent(token), secret);
       if (claims) return { id: claims.sub, name: claims.name, role: claims.role, ward: claims.ward };
     }
   }
