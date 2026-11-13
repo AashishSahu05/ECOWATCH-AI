@@ -235,19 +235,18 @@ npm run build
 
 ---
 
-## 8. Database Integration Handover (Status & Contract)
+## 8. Database Integration & Architecture (Active Supabase Backend)
 
-> [!IMPORTANT]
-> **Supabase database integration is EXCLUDED from the current milestone.**  
-> The application currently operates with 100% test coverage using the high-fidelity `MockAdapter` implementations.
+> [!NOTE]
+> **Supabase PostgreSQL database and Auth integration is ACTIVE.**  
+> The application connects directly to the Supabase instance with modern publishable keys, PostGIS spatial queries, and Row-Level Security (RLS).
 
-### Handover Preparation for Member 3
-1. **Zero Schema Collisions**: No custom SQL migrations were created in this phase. The project strictly preserves the contract defined in `ecowatch_ai_database_contract.md`.
-2. **Adapter Boundary**: Supabase adapters (`SupabaseCivicReportAdapter`, `SupabaseOperationsAdapter`, `SupabaseCivicCleanupAdapter`) are scaffolded and map 1-to-1 with PostgreSQL tables (`civic_reports`, `sanitation_squads`, `response_tickets`, `audit_ledger`).
-3. **Activation Steps**:
-   - Apply Member 3 official SQL migration scripts to your Supabase PostgreSQL instance.
-   - Configure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` in `.env.local`.
-   - The platform will automatically transition from `MockAdapter` to `SupabaseAdapter` without code changes.
+### Database Implementation Highlights
+1. **Schema & Migrations (`supabase/migrations/`)**: Full initial schema covering 27 relational tables with foreign keys, indexes, PostGIS geography points, automated timestamps, and immutable audit logs.
+2. **TypeScript Contract (`src/types/database.types.ts`)**: Strongly typed frontend interface covering all tables, insertables, updates, views, and stored functions.
+3. **Synthetic Seeds & Workflows (`supabase/seed.sql`, `docs/demo-workflows.sql`)**: Reference municipal entities, service areas, waste classification items, and facilities.
+4. **Row-Level Security (RLS)**: Enforces strict data isolation — citizen isolation prevents cross-tenant leaks, officers are constrained by active service area assignments, and administrators retain citywide audit authority.
+5. **Dual-Mode Adapter Resilience**: If Supabase connectivity is unconfigured or paused, the application gracefully falls back to local high-fidelity mock adapters for offline evaluation.
 
 ---
 
