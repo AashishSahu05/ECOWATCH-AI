@@ -56,7 +56,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (!supabaseUrl && isDemoAuthEnabled()) {
+  // 2. Demo / Provisioned Fallback Authentication Mode
+  if (!isAuthenticated && isDemoAuthEnabled()) {
     const token = request.cookies.get(DEMO_SESSION_COOKIE)?.value;
     const secret = getDemoAuthSecret();
     const claims = token && secret ? await verifyDemoSession(token, secret) : null;

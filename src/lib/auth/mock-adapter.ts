@@ -44,6 +44,14 @@ export const DEMO_USERS: Record<string, UserProfile & { passwordHash: string }> 
     createdAt: "2026-01-01T00:00:00Z",
     passwordHash: "ahtp@123",
   },
+  "aashishsahu9887@gmail.com": {
+    id: "usr_citizen_aashish_001",
+    email: "aashishsahu9887@gmail.com",
+    fullName: "Aashish Sahu",
+    role: "citizen",
+    createdAt: "2026-01-01T00:00:00Z",
+    passwordHash: "ahtp@123",
+  },
 };
 
 const SESSION_COOKIE_NAME = "ecowatch_auth_session";

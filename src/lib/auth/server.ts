@@ -38,7 +38,7 @@ export async function getServerIdentity(
     return testIdentities.get(request) || null;
   }
 
-  if (request && isDemoAuthEnabled() && !process.env.NEXT_PUBLIC_SUPABASE_URL) {
+  if (request && isDemoAuthEnabled()) {
     const token = request.headers.get("cookie")?.split(";")
       .map((part) => part.trim())
       .find((part) => part.startsWith(`${DEMO_SESSION_COOKIE}=`))

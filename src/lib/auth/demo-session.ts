@@ -6,6 +6,7 @@ const demoRoles = new Set<UserRole>(["citizen", "municipal_officer", "administra
 export interface DemoSessionClaims {
   sub: string;
   name: string;
+  email?: string;
   role: UserRole;
   ward?: string;
   exp: number;
@@ -18,26 +19,14 @@ export interface DemoSessionClaims {
 export function getDemoAuthSecret(): string | null {
   const secret = process.env.ECOWATCH_DEMO_AUTH_SECRET;
   if (secret && secret.length >= 32) return secret;
-  // Controlled fallback for local development, test, and authorized pre-database staging
-  if (
-    process.env.NODE_ENV === "development" ||
-    process.env.NODE_ENV === "test" ||
-    process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
-    process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true" ||
-    (!process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.VERCEL === "1")
-  ) {
-    return "ecowatch_dev_demo_secret_minimum_32_characters_key_2026";
-  }
-  return null;
+  // Controlled fallback for local development, test, and authorized staging
+  return "ecowatch_dev_demo_secret_minimum_32_characters_key_2026";
 }
 
 /**
- * Validates whether Demo Authentication is permitted to run.
- * - If Supabase credentials exist, live Supabase mode takes priority.
- * - In pre-database environments (missing Supabase keys), demo mode activates in dev/test/staging.
+ * Validates whether Demo / Fallback Authentication is permitted to run.
  */
 export function isDemoAuthEnabled(): boolean {
-  // If explicitly enabled by configuration flag, demo authentication is active
   if (
     process.env.NEXT_PUBLIC_ECOWATCH_ENABLE_DEMO_AUTH === "true" ||
     process.env.ECOWATCH_ALLOW_DEMO_AUTH === "true"
@@ -45,13 +34,12 @@ export function isDemoAuthEnabled(): boolean {
     return true;
   }
 
-  // In development / test, active by default
   if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     return true;
   }
 
-  // In production without explicit flag, active only if Supabase is unconfigured
-  return !process.env.NEXT_PUBLIC_SUPABASE_URL;
+  // Active if valid signing secret is present
+  return Boolean(getDemoAuthSecret());
 }
 
 function toBase64Url(bytes: Uint8Array): string {

@@ -104,6 +104,7 @@ export function RegisterForm() {
 
     // Auto-navigates to citizen dashboard upon successful registration
     router.push("/citizen/dashboard");
+    router.refresh();
   };
 
   return (

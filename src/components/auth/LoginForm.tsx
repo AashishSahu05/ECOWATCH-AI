@@ -55,31 +55,7 @@ export function LoginForm() {
     }
 
     setIsSubmitting(true);
-    let result = await signIn({ email: trimmedEmail, password });
-
-    // Fallback: If Supabase Auth credentials failed, check seeded administrator/demo accounts
-    if (!result.success) {
-      try {
-        const demoRes = await fetch("/api/auth/demo-session", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ mode: "signin", email: trimmedEmail, password }),
-        });
-        if (demoRes.ok) {
-          const demoData = await demoRes.json();
-          result = {
-            success: true,
-            data: {
-              accessToken: "live-session-token",
-              expiresAt: demoData.expiresAt,
-              user: demoData.user,
-            },
-          };
-        }
-      } catch {
-        // preserve original result
-      }
-    }
+    const result = await signIn({ email: trimmedEmail, password });
     setIsSubmitting(false);
 
     if (!result.success || !result.data) {
@@ -92,6 +68,7 @@ export function LoginForm() {
     // Direct to explicit redirect or authorized dashboard
     if (redirectTarget && redirectTarget.startsWith("/")) {
       router.push(redirectTarget);
+      router.refresh();
       return;
     }
 
@@ -102,6 +79,7 @@ export function LoginForm() {
     } else {
       router.push("/citizen/dashboard");
     }
+    router.refresh();
   };
 
   return (
