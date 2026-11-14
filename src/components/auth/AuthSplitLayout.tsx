@@ -48,7 +48,7 @@ export function AuthSplitLayout({
       {/* ========================================================================= */}
       {/* DESKTOP LEFT PANEL (~42% Width) — Full Height 100dvh, Above the Fold      */}
       {/* ========================================================================= */}
-      <div className="hidden lg:flex lg:w-[42%] h-[100dvh] max-h-[100dvh] bg-[#103822] text-white p-6 xl:p-8 2xl:p-10 flex-col justify-between shrink-0 border-r border-[#1B503A]/60 shadow-xl overflow-hidden">
+      <div className="hidden lg:flex lg:w-[42%] h-[100dvh] max-h-[100dvh] bg-gradient-to-b from-[#133A29] via-[#164734] to-[#194D37] text-white p-6 xl:p-8 2xl:p-10 flex-col justify-between shrink-0 border-r border-[#1B503A]/60 shadow-xl overflow-hidden">
         {/* Top Header / Seamless Official Logo & Brand Statement */}
         <div className="space-y-3">
           {/* Logo with zero visible box, border, or card background */}
@@ -59,7 +59,7 @@ export function AuthSplitLayout({
               width={320}
               height={92}
               priority
-              className="h-14 xl:h-16 2xl:h-18 w-auto object-contain block"
+              className="h-12 xl:h-13 2xl:h-14 w-auto object-contain block"
             />
           </div>
 
@@ -162,15 +162,15 @@ export function AuthSplitLayout({
       {/* ========================================================================= */}
       {/* MOBILE TOP BANNER (<lg) — Compact & Sleek Brand Showcase                  */}
       {/* ========================================================================= */}
-      <div className="lg:hidden bg-[#103822] text-white p-4 sm:p-5 space-y-2.5 shadow-md">
+      <div className="lg:hidden bg-gradient-to-b from-[#133A29] via-[#164734] to-[#194D37] text-white p-4 sm:p-5 space-y-2.5 shadow-md">
         <div className="flex items-center justify-between">
           <Image
             src="/images/nagardrishti-logo.png"
             alt="Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence"
-            width={220}
-            height={63}
+            width={200}
+            height={57}
             priority
-            className="h-10 sm:h-12 w-auto object-contain block"
+            className="h-8 sm:h-9 w-auto object-contain block"
           />
           <span className="text-[9px] font-mono text-brand-lemon px-2 py-0.5 rounded-full bg-white/10 border border-white/15">
             Buildathon Platform
