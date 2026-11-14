@@ -3,7 +3,7 @@ import { AuthSplitLayout } from "@/components/auth/AuthSplitLayout";
 import { LoginForm } from "@/components/auth/LoginForm";
 
 export const metadata = {
-  title: "Sign In — EcoWatch AI",
+  title: "Sign In — Nagardrishti AI",
   description:
     "Secure role-based access for Citizens, Municipal Officers, and System Administrators.",
 };
@@ -11,7 +11,7 @@ export const metadata = {
 export default function LoginPage() {
   return (
     <AuthSplitLayout
-      heading="Welcome to EcoWatch AI"
+      heading="Welcome to Nagardrishti AI"
       subheading="Select your portal role or enter your credentials to access your dashboard."
     >
       <Suspense

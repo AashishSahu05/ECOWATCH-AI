@@ -19,7 +19,7 @@ export default function NotFound() {
         </h1>
 
         <p className="text-sm text-brand-charcoal/80 font-inter leading-relaxed">
-          The requested route is outside the mapped EcoWatch AI jurisdiction. Please return to the
+          The requested route is outside the mapped Nagardrishti AI jurisdiction. Please return to the
           homepage or explore our core capabilities.
         </p>
 

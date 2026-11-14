@@ -19,10 +19,11 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "EcoWatch AI — Smart Environmental & Waste Intelligence Platform",
+  title: "Nagardrishti AI — Smart Environmental & Waste Intelligence Platform",
   description:
     "A next-generation civic AI platform uniting edge computer vision, spatial hotspot telemetry, and municipal operations workflows to eliminate urban waste mismanagement.",
   keywords: [
+    "Nagardrishti AI",
     "Smart Waste Management",
     "Civic AI",
     "Illegal Dumping Detection",

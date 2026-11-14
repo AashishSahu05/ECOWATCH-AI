@@ -22,9 +22,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "How It Works — EcoWatch AI Operational Pipeline",
+  title: "How It Works — Nagardrishti AI Operational Pipeline",
   description:
-    "Discover the four-stage operational pipeline of EcoWatch AI: edge capture, vision triage, spatial dispatch, and closed-loop civic verification.",
+    "Discover the four-stage operational pipeline of Nagardrishti AI: edge capture, vision triage, spatial dispatch, and closed-loop civic verification.",
 };
 
 const ICON_MAP = {
@@ -38,7 +38,7 @@ const TECHNICAL_FAQS = [
   {
     question: "How does the system prevent duplicate citizen reports for the same incident?",
     answer:
-      "When a report arrives, EcoWatch AI performs a spatial-temporal query within an adaptive 50-meter buffer radius. If an active incident with matching visual categorization exists within the timeframe, subsequent submissions are automatically linked as confirming evidence rather than generating duplicate municipal dispatch tickets.",
+      "When a report arrives, Nagardrishti AI performs a spatial-temporal query within an adaptive 50-meter buffer radius. If an active incident with matching visual categorization exists within the timeframe, subsequent submissions are automatically linked as confirming evidence rather than generating duplicate municipal dispatch tickets.",
   },
   {
     question: "What happens if an uploaded photo is blurred or lacks GPS metadata?",
@@ -53,7 +53,7 @@ const TECHNICAL_FAQS = [
   {
     question: "Can existing municipal sanitation fleets integrate without new hardware?",
     answer:
-      "Yes. EcoWatch AI is architected as an interoperable software layer. It produces standard GeoJSON dispatch payloads that export directly into municipal GIS dispatch software, or field crews can simply utilize our lightweight mobile web application on standard smartphones.",
+      "Yes. Nagardrishti AI is architected as an interoperable software layer. It produces standard GeoJSON dispatch payloads that export directly into municipal GIS dispatch software, or field crews can simply utilize our lightweight mobile web application on standard smartphones.",
   },
   {
     question: "What machine learning models power the visual classification?",
@@ -73,7 +73,7 @@ export default function HowItWorksPage() {
               System Architecture & Pipeline
             </Badge>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-brand-deep-forest tracking-tight font-manrope leading-[1.12]">
-              How EcoWatch AI coordinates urban sanitation.
+              How Nagardrishti AI coordinates urban sanitation.
             </h1>
             <p className="mt-5 text-lg sm:text-xl text-brand-charcoal/85 leading-relaxed font-inter">
               From an everyday citizen snapshot to verifiable municipal resolution, see how our four-stage

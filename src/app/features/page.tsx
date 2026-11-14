@@ -22,9 +22,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Core AI Capabilities — EcoWatch AI",
+  title: "Core AI Capabilities — Nagardrishti AI",
   description:
-    "Explore the six core AI and spatial intelligence capabilities powering EcoWatch AI's smart waste and environmental management platform.",
+    "Explore the six core AI and spatial intelligence capabilities powering Nagardrishti AI's smart waste and environmental management platform.",
 };
 
 const ICON_MAP = {
@@ -40,32 +40,32 @@ const COMPARISON_ROWS = [
   {
     dimension: "Reporting Mechanism",
     traditional: "Manual phone hotlines, web portal forms without GPS",
-    ecowatch: "Instant camera capture with automated EXIF GPS & blur detection",
+    nagardrishti: "Instant camera capture with automated EXIF GPS & blur detection",
   },
   {
     dimension: "Refuse Triage & Categorization",
     traditional: "Manual reading by dispatch staff; frequent misclassification",
-    ecowatch: "Edge vision segmentation identifying recyclables, organics & hazards",
+    nagardrishti: "Edge vision segmentation identifying recyclables, organics & hazards",
   },
   {
     dimension: "Duplicate Complaint Handling",
     traditional: "Dozens of redundant tickets dispatched to the same street",
-    ecowatch: "Spatial clustering automatically deduplicates overlapping reports",
+    nagardrishti: "Spatial clustering automatically deduplicates overlapping reports",
   },
   {
     dimension: "Collection Gap Auditing",
     traditional: "Fixed static routes regardless of localized overflows",
-    ecowatch: "Continuous anomaly detection correlating route gaps with bin overflow",
+    nagardrishti: "Continuous anomaly detection correlating route gaps with bin overflow",
   },
   {
     dimension: "Hotspot Prevention",
     traditional: "Purely reactive cleanups after mass dumpsites form",
-    ecowatch: "Predictive spatial regression highlighting recurrence risk corridors",
+    nagardrishti: "Predictive spatial regression highlighting recurrence risk corridors",
   },
   {
     dimension: "Cleanup Accountability",
     traditional: "Closed tickets without proof; citizen feedback void",
-    ecowatch: "Before/after photographic verification logged to public civic feed",
+    nagardrishti: "Before/after photographic verification logged to public civic feed",
   },
 ];
 
@@ -84,7 +84,7 @@ export default function FeaturesPage() {
             </h1>
             <p className="mt-5 text-lg sm:text-xl text-brand-muted-slate leading-relaxed font-inter">
               From the instant a citizen points a camera at an unmanaged refuse pile to the moment a municipal crew
-              photographically verifies its removal, EcoWatch AI orchestrates every step with computer vision and spatial intelligence.
+              photographically verifies its removal, Nagardrishti AI orchestrates every step with computer vision and spatial intelligence.
             </p>
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function FeaturesPage() {
           <SectionHeading
             badge="Comparative Architecture"
             badgeVariant="mint"
-            title="Traditional Waste Management vs. EcoWatch AI"
+            title="Traditional Waste Management vs. Nagardrishti AI"
             subtitle="How automated optical perception and spatial intelligence transform legacy sanitation bottlenecks."
           />
 
@@ -200,7 +200,7 @@ export default function FeaturesPage() {
                 <tr className="bg-brand-mint-cream text-brand-deep-green text-xs font-manrope font-bold uppercase tracking-wider border-b border-brand-soft-sage">
                   <th className="py-4 px-6">Operational Dimension</th>
                   <th className="py-4 px-6 text-brand-muted-slate">Legacy Manual Approach</th>
-                  <th className="py-4 px-6 text-brand-emerald bg-brand-soft-sage/40">EcoWatch AI Infrastructure</th>
+                  <th className="py-4 px-6 text-brand-emerald bg-brand-soft-sage/40">Nagardrishti AI Infrastructure</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-brand-soft-sage text-sm font-inter">
@@ -221,7 +221,7 @@ export default function FeaturesPage() {
                     <td className="py-4 px-6 text-brand-deep-green font-medium bg-brand-soft-sage/20">
                       <div className="flex items-start gap-2">
                         <Check className="w-4 h-4 text-brand-fresh-green shrink-0 mt-0.5" />
-                        <span>{row.ecowatch}</span>
+                        <span>{row.nagardrishti}</span>
                       </div>
                     </td>
                   </tr>

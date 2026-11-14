@@ -20,7 +20,7 @@ export function SolutionOverview() {
           badge="Platform Architecture"
           badgeVariant="mint"
           title="Bridging the Critical Gap Between Citizen Sightings & Municipal Action"
-          subtitle="EcoWatch AI provides the digital nervous system for modern municipal sanitation—turning scattered complaints into real-time, verified operational workflows."
+          subtitle="Nagardrishti AI provides the digital nervous system for modern municipal sanitation—turning scattered complaints into real-time, verified operational workflows."
         />
 
         {/* 3 Core Architecture Pillars */}
@@ -74,7 +74,7 @@ export function SolutionOverview() {
                 Closed-Loop Remediation Audit
               </h3>
               <p className="text-sm text-brand-muted-slate leading-relaxed font-inter mb-4">
-                Field teams close out assigned tasks by capturing post-cleanup photographs. EcoWatch AI’s
+                Field teams close out assigned tasks by capturing post-cleanup photographs. Nagardrishti AI’s
                 verification engine compares before and after states to certify site restoration, logging
                 an immutable audit trail for citizens and administrators.
               </p>

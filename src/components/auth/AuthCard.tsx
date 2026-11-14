@@ -46,7 +46,7 @@ export function AuthCard({
             </svg>
           </div>
           <span className="font-manrope font-extrabold text-2xl text-brand-deep-green tracking-tight">
-            EcoWatch<span className="text-brand-fresh-green ml-1">AI</span>
+            Nagardrishti<span className="text-brand-fresh-green ml-1">AI</span>
           </span>
         </Link>
 

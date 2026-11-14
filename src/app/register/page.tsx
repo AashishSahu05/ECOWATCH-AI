@@ -3,7 +3,7 @@ import { AuthSplitLayout } from "@/components/auth/AuthSplitLayout";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export const metadata = {
-  title: "Citizen Registration — EcoWatch AI",
+  title: "Citizen Registration — Nagardrishti AI",
   description:
     "Create a verified citizen account to report unmanaged waste, access AI sorting guidance, and track local remediation.",
 };

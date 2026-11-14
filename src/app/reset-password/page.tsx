@@ -3,8 +3,8 @@ import { AuthSplitLayout } from "@/components/auth/AuthSplitLayout";
 import { ResetPasswordForm } from "@/components/auth/ResetPasswordForm";
 
 export const metadata = {
-  title: "Update Password — EcoWatch AI",
-  description: "Set a new password for your EcoWatch AI account.",
+  title: "Update Password — Nagardrishti AI",
+  description: "Set a new password for your Nagardrishti AI account.",
 };
 
 export default function ResetPasswordPage() {

@@ -626,7 +626,7 @@ export default function OfficerRootCausePage() {
                   type="url"
                   value={evidenceUrl}
                   onChange={(e) => setEvidenceUrl(e.target.value)}
-                  placeholder="https://ecowatch.city/verification/photo_w04_01.jpg"
+                  placeholder="https://nagardrishti.city/verification/photo_w04_01.jpg"
                   className="w-full p-2.5 rounded-lg border border-brand-soft-sage text-xs font-mono font-medium text-brand-deep-green focus:ring-2 focus:ring-brand-emerald focus:outline-none"
                 />
               </div>

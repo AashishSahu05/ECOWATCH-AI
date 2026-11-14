@@ -12,7 +12,7 @@ export function EnvironmentalImpact() {
           badge="Global Sustainability Framework"
           badgeVariant="leaf"
           title="Designed for Measurable Ecological & Municipal Outcomes"
-          subtitle="Grounded in United Nations Sustainable Development Goals (SDG 11 & SDG 12), EcoWatch AI focuses on operational integrity, stream purity, and verifiable landfill diversion."
+          subtitle="Grounded in United Nations Sustainable Development Goals (SDG 11 & SDG 12), Nagardrishti AI focuses on operational integrity, stream purity, and verifiable landfill diversion."
         />
 
         {/* 3 Impact Pillars */}
@@ -70,7 +70,7 @@ export function EnvironmentalImpact() {
                 Data Transparency & Integrity Standard
               </h4>
               <p className="text-xs text-brand-muted-slate font-inter">
-                EcoWatch AI adheres to strict operational telemetry principles, logging only verified,
+                Nagardrishti AI adheres to strict operational telemetry principles, logging only verified,
                 geotagged civic cleanups without speculative metrics.
               </p>
             </div>

@@ -69,7 +69,7 @@ export function CivicReportTimeline({
       case "citizen":
         return "Citizen Reporter";
       case "system":
-        return "EcoWatch System Engine";
+        return "Nagardrishti System Engine";
       default:
         return role;
     }

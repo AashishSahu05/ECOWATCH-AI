@@ -12,9 +12,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Contact Municipal Team — EcoWatch AI",
+  title: "Contact Municipal Team — Nagardrishti AI",
   description:
-    "Get in touch with the EcoWatch AI team for municipal pilot inquiries, Buildathon evaluations, or technical demonstrations.",
+    "Get in touch with the Nagardrishti AI team for municipal pilot inquiries, Buildathon evaluations, or technical demonstrations.",
 };
 
 export default function ContactPage() {
@@ -31,7 +31,7 @@ export default function ContactPage() {
               Connect with our municipal intelligence team.
             </h1>
             <p className="mt-5 text-lg sm:text-xl text-brand-charcoal/85 leading-relaxed font-inter">
-              Whether you are evaluating EcoWatch AI for the Google Startup Buildathon, requesting a municipal
+              Whether you are evaluating Nagardrishti AI for the Google Startup Buildathon, requesting a municipal
               ward demonstration, or exploring research collaborations, we look forward to hearing from you.
             </p>
           </div>
@@ -68,7 +68,7 @@ export default function ContactPage() {
                       Direct Email Inquiries
                     </h3>
                     <p className="text-xs text-brand-charcoal/70 font-mono mt-0.5">
-                      pilot@ecowatch.ai
+                      pilot@nagardrishti.ai
                     </p>
                     <p className="text-[11px] text-brand-leaf-green mt-1 font-medium">
                       Monitored during Buildathon review cycles

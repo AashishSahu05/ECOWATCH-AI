@@ -426,7 +426,7 @@ export const SEED_CIVIC_REPORTS: CivicReport[] = [
       reportId: "rep_seed_004",
       citizenId: "usr_citizen_001",
       rating: 5,
-      feedbackComment: "Incredible speed of response! The road was cleared within 24 hours of confirmation. Thank you EcoWatch team!",
+      feedbackComment: "Incredible speed of response! The road was cleared within 24 hours of confirmation. Thank you Nagardrishti team!",
       createdAt: new Date(Date.now() - 3600000 * 2).toISOString(),
     },
     isAnonymous: false,

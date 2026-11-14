@@ -23,7 +23,7 @@ interface AuthSplitLayoutProps {
 
 export function AuthSplitLayout({
   children,
-  heading = "Welcome to EcoWatch AI",
+  heading = "Welcome to Nagardrishti AI",
   subheading = "Sign in to access your ecological monitoring and municipal console.",
   isRegister = false,
 }: AuthSplitLayoutProps) {
@@ -230,7 +230,7 @@ export function AuthSplitLayout({
           {/* Footer Identification */}
           <div className="text-center text-[11px] text-brand-muted-slate font-inter">
             <p>
-              EcoWatch AI • Multi-Role Access Control System • Module 01
+              Nagardrishti AI • Multi-Role Access Control System • Module 01
             </p>
           </div>
         </div>

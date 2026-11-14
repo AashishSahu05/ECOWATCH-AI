@@ -38,7 +38,7 @@ export function HeroSection() {
             </h1>
 
             <p className="text-lg sm:text-xl text-brand-muted-slate leading-relaxed font-normal max-w-2xl font-inter">
-              EcoWatch AI unifies edge computer vision, spatial hotspot telemetry, and automated municipal
+              Nagardrishti AI unifies edge computer vision, spatial hotspot telemetry, and automated municipal
               operations to eliminate illegal dumping, optimize segregation, and close civic cleanup feedback loops.
             </p>
 
@@ -82,7 +82,7 @@ export function HeroSection() {
                 <div className="flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-brand-fresh-green animate-pulse" />
                   <span className="font-manrope font-bold text-brand-deep-green">
-                    EcoWatch AI Sentinel
+                    Nagardrishti AI Sentinel
                   </span>
                   <span className="text-[10px] bg-brand-lemon text-brand-deep-green px-2 py-0.5 rounded border border-brand-lemon/70 uppercase font-mono font-bold">
                     UI Demo

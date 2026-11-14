@@ -58,7 +58,7 @@ export const CORE_CAPABILITIES: CoreCapability[] = [
     number: "05",
     title: "AI Root Cause Intelligence",
     shortDescription: "Multivariate analytical modeling correlating waste buildup with demographic pressure, infrastructure deficits, and local commerce.",
-    fullDescription: "Uncovers the underlying systemic drivers behind waste mismanagement. By synthesizing commercial density, public bin radiuses, pedestrian traffic corridors, and transit terminals, EcoWatch AI isolates why specific zones suffer chronic sanitation breakdowns.",
+    fullDescription: "Uncovers the underlying systemic drivers behind waste mismanagement. By synthesizing commercial density, public bin radiuses, pedestrian traffic corridors, and transit terminals, Nagardrishti AI isolates why specific zones suffer chronic sanitation breakdowns.",
     icon: "BrainCircuit",
     tags: ["Causal Inference", "Urban Infrastructure Analysis", "Policy Simulation"],
     systemInput: "Zoning categories, demographic density estimates, public bin distributions, and incident logs",

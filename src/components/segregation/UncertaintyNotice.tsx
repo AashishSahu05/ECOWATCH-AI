@@ -49,7 +49,7 @@ export function UncertaintyNotice({
       >
         <Info className="w-4 h-4 text-brand-fresh-green shrink-0 mt-0.5" />
         <p className="text-brand-muted-slate text-[11px] leading-relaxed">
-          <strong className="text-brand-deep-green font-manrope">Advisory AI Perception Notice:</strong> EcoWatch AI
+          <strong className="text-brand-deep-green font-manrope">Advisory AI Perception Notice:</strong> Nagardrishti AI
           segregation models provide high-accuracy sorting guidance. However, optical AI cannot replace physical chemical
           assays. For unlabelled chemical containers or sharps, exercise manual precaution and consult local municipal ward protocols.
         </p>

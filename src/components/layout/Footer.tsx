@@ -50,7 +50,7 @@ export function Footer() {
                 </svg>
               </div>
               <span className="font-manrope font-extrabold text-2xl text-brand-deep-green tracking-tight">
-                EcoWatch<span className="text-brand-fresh-green ml-1">AI</span>
+                Nagardrishti<span className="text-brand-fresh-green ml-1">AI</span>
               </span>
             </Link>
             <p className="text-sm text-brand-muted-slate leading-relaxed max-w-sm font-inter">
@@ -93,7 +93,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-brand-soft-sage/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-brand-muted-slate">
-          <p>© {new Date().getFullYear()} EcoWatch AI. Developed for the Google Startup Buildathon. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Nagardrishti AI. Developed for the Google Startup Buildathon. All rights reserved.</p>
           <div className="flex items-center gap-6">
             <Link href="/about" className="hover:text-brand-deep-green transition-colors">
               Platform Philosophy

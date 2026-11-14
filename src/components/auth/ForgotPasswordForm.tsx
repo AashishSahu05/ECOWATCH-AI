@@ -104,7 +104,7 @@ export function ForgotPasswordForm() {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="citizen@ecowatch.ai"
+            placeholder="citizen@nagardrishti.ai"
             required
             className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-brand-warm-white/50 border border-brand-forest-green/20 text-sm text-brand-charcoal placeholder:text-brand-charcoal/40 font-inter focus:outline-none focus:ring-2 focus:ring-brand-leaf-green/20 focus:border-brand-leaf-green transition-all"
           />

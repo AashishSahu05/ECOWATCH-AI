@@ -59,7 +59,7 @@ export default function ProtectedLayout({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <p className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-brand-fresh-green shrink-0" />
-            <span className="font-bold text-brand-deep-green font-manrope">EcoWatch AI</span>
+            <span className="font-bold text-brand-deep-green font-manrope">Nagardrishti AI</span>
             <span>•</span>
             <span>Civic Environmental Intelligence</span>
           </p>

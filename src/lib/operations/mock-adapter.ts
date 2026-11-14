@@ -372,16 +372,16 @@ export class MockOperationsAdapter implements OperationsAdapter {
     const now = new Date().toISOString();
 
     // Render template message text
-    let messageText = `EcoWatch AI Notification for ${input.recipientName}`;
+    let messageText = `Nagardrishti AI Notification for ${input.recipientName}`;
     switch (input.templateId) {
       case "squad_dispatched_citizen":
-        messageText = `EcoWatch AI: Rapid Clean Squad has been dispatched to your report ${input.reportReference || "incident"}. Estimated Arrival: ${input.params.eta || "20 mins"}.`;
+        messageText = `Nagardrishti AI: Rapid Clean Squad has been dispatched to your report ${input.reportReference || "incident"}. Estimated Arrival: ${input.params.eta || "20 mins"}.`;
         break;
       case "issue_resolved_citizen":
-        messageText = `EcoWatch AI: Your report ${input.reportReference || "incident"} has been resolved! ${input.params.tonnage || "1.4"} tonnes of waste cleared. View proof: ${input.params.proofUrl || "https://ecowatch.city"}`;
+        messageText = `Nagardrishti AI: Your report ${input.reportReference || "incident"} has been resolved! ${input.params.tonnage || "1.4"} tonnes of waste cleared. View proof: ${input.params.proofUrl || "https://nagardrishti.city"}`;
         break;
       case "manifest_assigned_crew":
-        messageText = `EcoWatch Field: You have been assigned Manifest ${input.manifestNumber || "route"} (${input.params.waypointCount || "3"} stops). Please view your route in the Operations portal.`;
+        messageText = `Nagardrishti Field: You have been assigned Manifest ${input.manifestNumber || "route"} (${input.params.waypointCount || "3"} stops). Please view your route in the Operations portal.`;
         break;
       case "sla_escalation_officer":
         messageText = `[CRITICAL SLA ALERT] Ticket ${input.reportReference || "urgent"} is within 4 hours of statutory breach in ${input.params.wardName || "Ward 04"}. Immediate squad dispatch required.`;

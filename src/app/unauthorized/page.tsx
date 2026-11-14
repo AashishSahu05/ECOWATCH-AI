@@ -34,7 +34,7 @@ export default function UnauthorizedPage() {
 
         <p className="text-sm text-brand-charcoal/80 font-inter leading-relaxed">
           Your active account does not have sufficient role permissions to view the requested destination.
-          EcoWatch AI enforces strict server-side authorization boundaries between Citizens, Municipal Officers, and Administrators.
+          Nagardrishti AI enforces strict server-side authorization boundaries between Citizens, Municipal Officers, and Administrators.
         </p>
 
         {user && (

@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "About EcoWatch AI — Mission, Vision & Buildathon Architecture",
+  title: "About Nagardrishti AI — Mission, Vision & Buildathon Architecture",
   description:
-    "Learn about EcoWatch AI's mission to eliminate urban waste mismanagement through edge computer vision, spatial intelligence, and civic accountability.",
+    "Learn about Nagardrishti AI's mission to eliminate urban waste mismanagement through edge computer vision, spatial intelligence, and civic accountability.",
 };
 
 const VALUES = [
@@ -101,7 +101,7 @@ export default function AboutPage() {
               Building the digital nervous system for sustainable cities.
             </h1>
             <p className="mt-5 text-lg sm:text-xl text-brand-charcoal/85 leading-relaxed font-inter">
-              EcoWatch AI was conceived during the Google Startup Buildathon to solve a profound civic failure:
+              Nagardrishti AI was conceived during the Google Startup Buildathon to solve a profound civic failure:
               the systemic breakdown between citizen environmental sightings and municipal sanitation operations.
             </p>
           </div>
@@ -131,7 +131,7 @@ export default function AboutPage() {
                   overflow spikes or acute hazardous dumps until public health risks escalate.
                 </p>
                 <p className="font-semibold text-brand-forest-green">
-                  EcoWatch AI replaces this disconnected manual loop with an intelligent civic pipeline powered
+                  Nagardrishti AI replaces this disconnected manual loop with an intelligent civic pipeline powered
                   by computer vision and spatial analytics.
                 </p>
               </div>
@@ -150,7 +150,7 @@ export default function AboutPage() {
               <div className="rounded-3xl bg-brand-soft-sage/40 p-8 sm:p-10 border border-brand-forest-green/15 space-y-6 shadow-subtle">
                 <h3 className="text-xl font-bold font-manrope text-brand-deep-forest flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-brand-leaf-green" />
-                  The EcoWatch AI Thesis
+                  The Nagardrishti AI Thesis
                 </h3>
                 <blockquote className="border-l-4 border-brand-leaf-green pl-4 italic text-sm text-brand-charcoal/85 leading-relaxed">
                   &ldquo;When visual verification becomes instant and spatial triage becomes automated, cities save
@@ -216,7 +216,7 @@ export default function AboutPage() {
             badge="Google Startup Buildathon Roadmap"
             badgeVariant="mint"
             title="Disciplined Module-Based Engineering"
-            subtitle="EcoWatch AI is developed in discrete, independently verifiable modules to ensure bulletproof software quality."
+            subtitle="Nagardrishti AI is developed in discrete, independently verifiable modules to ensure bulletproof software quality."
           />
 
           <div className="max-w-4xl mx-auto space-y-4">

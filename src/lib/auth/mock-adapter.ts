@@ -233,7 +233,7 @@ export class MockAuthAdapter implements AuthAdapter {
     return {
       success: true,
       data: newProfile,
-      message: "Registration successful. Welcome to EcoWatch AI!",
+      message: "Registration successful. Welcome to Nagardrishti AI!",
     };
   }
 

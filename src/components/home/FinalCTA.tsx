@@ -27,7 +27,7 @@ export function FinalCTA() {
 
           <p className="text-base sm:text-lg text-brand-muted-slate leading-relaxed font-inter max-w-2xl mx-auto">
             Whether you are a civic group championing cleaner neighborhoods or a municipal authority
-            seeking automated incident dispatch, EcoWatch AI delivers verifiable, real-time sanitation intelligence.
+            seeking automated incident dispatch, Nagardrishti AI delivers verifiable, real-time sanitation intelligence.
           </p>
 
           {/* Action CTAs */}
@@ -38,7 +38,7 @@ export function FinalCTA() {
               size="lg"
               icon={<ArrowRight className="w-4 h-4 text-brand-lemon" />}
             >
-              Access EcoWatch Platform
+              Access Nagardrishti Platform
             </Button>
             <Button
               href="/how-it-works"

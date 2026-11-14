@@ -3,8 +3,8 @@ import { ProfileForm } from "@/components/auth/ProfileForm";
 import { HelpCircle, Mail, ShieldAlert, Sparkles } from "lucide-react";
 
 export const metadata = {
-  title: "Account Profile — EcoWatch AI",
-  description: "Manage your EcoWatch AI user profile and security credentials.",
+  title: "Account Profile — Nagardrishti AI",
+  description: "Manage your Nagardrishti AI user profile and security credentials.",
 };
 
 export default function ProfilePage() {
@@ -35,7 +35,7 @@ export default function ProfilePage() {
               Help & Municipal Support
             </h2>
             <p className="text-xs text-brand-muted-slate font-inter">
-              Direct assistance channels for authenticated EcoWatch AI operators and citizens.
+              Direct assistance channels for authenticated Nagardrishti AI operators and citizens.
             </p>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function ProfilePage() {
               For urgent technical issues, account verification, or ward boundary revisions, reach our municipal support team.
             </p>
             <p className="font-mono text-brand-deep-green font-semibold pt-1">
-              support@ecowatch.ai
+              support@nagardrishti.ai
             </p>
           </div>
 

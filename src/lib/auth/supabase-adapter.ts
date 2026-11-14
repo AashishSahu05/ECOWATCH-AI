@@ -85,7 +85,7 @@ export class SupabaseAuthAdapter implements AuthAdapter {
       return {
         id: user.id,
         email: user.email || "",
-        fullName: profile?.full_name || user.user_metadata?.full_name || "EcoWatch User",
+        fullName: profile?.full_name || user.user_metadata?.full_name || "Nagardrishti User",
         role: profile?.role || "citizen",
         ward: profile?.ward_id,
         createdAt: profile?.created_at || user.created_at,

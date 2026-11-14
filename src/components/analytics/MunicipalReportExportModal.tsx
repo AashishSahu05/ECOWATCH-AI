@@ -169,7 +169,7 @@ export function MunicipalReportExportModal({
               </div>
 
               <div className="space-y-1.5 text-[11px]">
-                <div>• Platform: <strong>EcoWatch AI Municipal Environmental Intelligence</strong></div>
+                <div>• Platform: <strong>Nagardrishti AI Municipal Environmental Intelligence</strong></div>
                 <div>• Audit Scope: <strong>{selectedWard === "all" ? "All 5 Wards" : selectedWard}</strong> (Window: {timeRange.toUpperCase()})</div>
                 <div>• Statutory Target: <strong>24.0 Hours Resolution Commitment</strong></div>
                 <div>• Evidentiary Verification: <strong>Photo & Tonnage Certified</strong></div>

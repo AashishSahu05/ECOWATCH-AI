@@ -80,7 +80,7 @@ export async function getServerIdentity(
 
   return {
     id: subject,
-    name: profile.full_name || "EcoWatch User",
+    name: profile.full_name || "Nagardrishti User",
     role: profile.role as UserRole,
     ward: profile.ward_id || undefined,
   };

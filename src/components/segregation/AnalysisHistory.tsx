@@ -56,7 +56,7 @@ export function AnalysisHistory({ history, onSelect, onDeleted }: AnalysisHistor
           No Scan History Yet
         </h4>
         <p className="text-xs text-brand-muted-slate font-inter max-w-sm mx-auto">
-          Photographs you analyze with EcoWatch AI will appear here for quick reference and bin verification.
+          Photographs you analyze with Nagardrishti AI will appear here for quick reference and bin verification.
         </p>
       </div>
     );

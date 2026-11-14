@@ -3,7 +3,7 @@ import { AuthSplitLayout } from "@/components/auth/AuthSplitLayout";
 import { LoginForm } from "@/components/auth/LoginForm";
 
 export const metadata = {
-  title: "EcoWatch AI — AI-Powered Ecological Monitoring",
+  title: "Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence",
   description:
     "Intelligent civic waste infrastructure and automated municipal incident triage platform.",
 };
@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootEntryPage() {
   return (
     <AuthSplitLayout
-      heading="Welcome to EcoWatch AI"
+      heading="Welcome to Nagardrishti AI"
       subheading="Sign in to access your ecological monitoring and municipal console."
     >
       <Suspense

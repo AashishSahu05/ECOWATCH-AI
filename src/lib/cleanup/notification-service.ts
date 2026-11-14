@@ -22,22 +22,22 @@ export class CivicNotificationService {
 
     switch (input.template) {
       case "squad_dispatched":
-        return `[EcoWatch AI] Squad Dispatched: Team ${vars.squadName || "Rapid Clean"} (${vars.vehicleId || "KA-01-MJ"}) is en route to resolve ${ref}. ETA: ${vars.targetResolutionTime || "within SLA"}.`;
+        return `[Nagardrishti AI] Squad Dispatched: Team ${vars.squadName || "Rapid Clean"} (${vars.vehicleId || "KA-01-MJ"}) is en route to resolve ${ref}. ETA: ${vars.targetResolutionTime || "within SLA"}.`;
 
       case "crew_on_site":
-        return `[EcoWatch AI] Active Remediation: Sanitation crew arrived at ${vars.address || "the reported location"} for ${ref}. Clearance underway.`;
+        return `[Nagardrishti AI] Active Remediation: Sanitation crew arrived at ${vars.address || "the reported location"} for ${ref}. Clearance underway.`;
 
       case "cleanup_completed_pending_review":
-        return `[EcoWatch AI Officer Alert] Clearance Submitted: ${vars.squadName || "Squad"} logged ${vars.volumeTonnes || "1.5"}T cleared for ${ref}. Photographic proof awaiting mandatory certification.`;
+        return `[Nagardrishti AI Officer Alert] Clearance Submitted: ${vars.squadName || "Squad"} logged ${vars.volumeTonnes || "1.5"}T cleared for ${ref}. Photographic proof awaiting mandatory certification.`;
 
       case "remediation_certified":
-        return `[EcoWatch AI] Issue Resolved: Cleanup for ${ref} has been certified complete by Inspector ${vars.officerName || "Municipal Officer"}. Thank you for keeping our city clean!`;
+        return `[Nagardrishti AI] Issue Resolved: Cleanup for ${ref} has been certified complete by Inspector ${vars.officerName || "Municipal Officer"}. Thank you for keeping our city clean!`;
 
       case "remediation_rejected":
-        return `[EcoWatch AI Crew Alert] Remediation Flagged: Report ${ref} marked ${vars.decision || "incomplete"} by Inspector ${vars.officerName || "Officer"}. Notes: ${vars.remarks || "Secondary pass required"}.`;
+        return `[Nagardrishti AI Crew Alert] Remediation Flagged: Report ${ref} marked ${vars.decision || "incomplete"} by Inspector ${vars.officerName || "Officer"}. Notes: ${vars.remarks || "Secondary pass required"}.`;
 
       default:
-        return `[EcoWatch AI] Update on municipal report ${ref}.`;
+        return `[Nagardrishti AI] Update on municipal report ${ref}.`;
     }
   }
 
