@@ -118,27 +118,25 @@ export class SupabaseAuthAdapter implements AuthAdapter {
         }
       }
 
-      // Provisioned Admin/Officer/Demo fallback:
+      // Seamless provisioned / demo / local session fallback:
       const emailKey = credentials.email.toLowerCase().trim();
-      const seedUser = DEMO_USERS[emailKey];
-      if (seedUser && (seedUser.passwordHash === credentials.password || credentials.password === "Demo@123")) {
-        if (typeof window !== "undefined") {
-          const syncRes = await fetch("/api/auth/demo-session", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ mode: "signin", email: emailKey, password: credentials.password }),
-          });
-          if (syncRes.ok) {
-            const syncData = await syncRes.json();
-            return {
-              success: true,
-              data: {
-                accessToken: "live-authenticated-session",
-                expiresAt: syncData.expiresAt,
-                user: syncData.user,
-              },
-            };
-          }
+      if (typeof window !== "undefined") {
+        const syncRes = await fetch("/api/auth/demo-session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mode: "signin", email: emailKey, password: credentials.password }),
+        }).catch(() => null);
+
+        if (syncRes && syncRes.ok) {
+          const syncData = await syncRes.json();
+          return {
+            success: true,
+            data: {
+              accessToken: "live-authenticated-session",
+              expiresAt: syncData.expiresAt,
+              user: syncData.user,
+            },
+          };
         }
       }
 

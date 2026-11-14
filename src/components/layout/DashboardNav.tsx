@@ -135,14 +135,14 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
               className="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-emerald rounded-lg"
               title="Return to Dashboard Overview"
             >
-              <div className="bg-[#143D2B] px-2.5 py-1 rounded-lg flex items-center justify-center shadow-xs transition-opacity group-hover:opacity-95">
+              <div className="bg-[#103822] px-2.5 py-1 rounded-lg flex items-center justify-center shadow-xs transition-opacity group-hover:opacity-95 overflow-hidden">
                 <Image
-                  src="/images/ecowatch-ai-logo.png"
-                  alt="EcoWatch AI — AI-Powered Ecological Monitoring"
+                  src="/images/nagardrishti-logo.png"
+                  alt="Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence"
                   width={150}
                   height={43}
                   priority
-                  className="h-7 sm:h-8 w-auto object-contain block"
+                  className="h-7 sm:h-8 w-auto object-contain block rounded"
                 />
               </div>
               <span className={cn("hidden md:inline-flex text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border", roleInfo.badgeClass)}>
