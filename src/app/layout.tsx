@@ -1,22 +1,7 @@
 import type { Metadata } from "next";
-import { Manrope, Inter } from "next/font/google";
 import "./globals.css";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { AuthProvider } from "@/lib/auth/context";
-
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
-  weight: ["400", "500", "600", "700", "800"],
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Nagardrishti AI — Smart Environmental & Waste Intelligence Platform",
@@ -39,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${manrope.variable} ${inter.variable}`}>
+    <html lang="en">
       <body className="min-h-screen flex flex-col bg-brand-warm-white text-brand-charcoal font-inter antialiased">
         <AuthProvider>
           <SiteLayout>{children}</SiteLayout>
