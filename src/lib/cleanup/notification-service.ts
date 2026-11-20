@@ -36,6 +36,15 @@ export class CivicNotificationService {
       case "remediation_rejected":
         return `[Nagardrishti AI Crew Alert] Remediation Flagged: Report ${ref} marked ${vars.decision || "incomplete"} by Inspector ${vars.officerName || "Officer"}. Notes: ${vars.remarks || "Secondary pass required"}.`;
 
+      case "escalation_level_2":
+        return `[Nagardrishti AI ESCALATION L2] Overdue Alert: Report ${ref} in ${vars.wardName || "Ward 04"} breached ${vars.slaHours || 12}h SLA. Escalated to Senior Municipal Officer.`;
+
+      case "escalation_level_3":
+        return `[Nagardrishti AI ESCALATION L3] Critical Breach: Report ${ref} in ${vars.wardName || "Ward 04"} remains unresolved after Level 2 review. Escalated to City Administrator.`;
+
+      case "complaint_reopened":
+        return `[Nagardrishti AI] Citizen Reopened Report ${ref}: Citizen reported garbage is still present at site. Priority re-dispatch required.`;
+
       default:
         return `[Nagardrishti AI] Update on municipal report ${ref}.`;
     }

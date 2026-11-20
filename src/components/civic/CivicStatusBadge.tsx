@@ -81,6 +81,13 @@ export function CivicStatusBadge({ status, size = "md" }: CivicStatusBadgeProps)
       dot: "bg-gray-400",
       border: "border-gray-200",
     },
+    reopened: {
+      label: "Reopened by Citizen",
+      bg: "bg-amber-100",
+      text: "text-amber-900",
+      dot: "bg-amber-600",
+      border: "border-amber-300",
+    },
   };
 
   const config = configs[status] || configs.submitted;

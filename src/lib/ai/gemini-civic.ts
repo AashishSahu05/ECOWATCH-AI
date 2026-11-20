@@ -8,10 +8,18 @@ import {
 
 const GEMINI_REQUEST_TIMEOUT_MS = 15000; // 15 seconds
 
+export class GeminiUnavailableError extends Error {
+  constructor(message = "AI analysis temporarily unavailable") {
+    super(message);
+    this.name = "GeminiUnavailableError";
+  }
+}
+
 export async function analyzeCivicImage(
   imageBuffer: Buffer,
   mimeType: string,
-  userSelectedCategory?: string
+  userSelectedCategory?: string,
+  options?: { throwOnFailure?: boolean }
 ): Promise<CivicAIAnalysisDTO> {
   const apiKey = process.env.GEMINI_API_KEY;
 
@@ -24,8 +32,8 @@ export async function analyzeCivicImage(
       const base64Data = imageBuffer.toString("base64");
 
       const promptText = userSelectedCategory
-        ? `Analyze this civic sanitation photo. The citizen indicated suspected category '${userSelectedCategory}'. Identify the visible discarded materials, scene context, hazards, clarity, and suggest an advisory severity and response action.`
-        : "Analyze this civic sanitation photo. Identify the primary waste issue, visible materials, hazards, evidence clarity, and suggest an advisory severity and recommended municipal action.";
+        ? `Analyze this civic sanitation photo. The citizen indicated suspected category '${userSelectedCategory}'. Identify the visible discarded materials, scene context, hazards, clarity, and suggest an advisory severity ('low', 'medium', or 'high') and response action.`
+        : "Analyze this civic sanitation photo. Identify the primary waste issue, visible materials, hazards, evidence clarity, and suggest an advisory severity ('low', 'medium', or 'high') and recommended municipal action.";
 
       let response;
       for (let attempt = 0; attempt < 2; attempt++) {
@@ -75,28 +83,40 @@ export async function analyzeCivicImage(
         }
         const validated = CivicAIAnalysisSchema.parse(parsedJson);
 
+        const severity = validated.suggested_severity;
+
         return {
           suggestedCategory: validated.suggested_category,
           sceneDescription: validated.scene_description,
           visibleMaterials: validated.visible_materials,
           evidenceClarity: validated.evidence_clarity,
-          suggestedSeverity: validated.suggested_severity,
+          suggestedSeverity: severity,
           identificationUncertainty: validated.identification_uncertainty,
           possibleHazards: validated.possible_hazards,
           recommendedAction: validated.recommended_action,
           estimatedWasteVolume: validated.estimated_waste_volume,
           rawModelResponse: parsedJson,
           isMockResult: false,
+          aiAnalysisStatus: "COMPLETED",
+          requiresHumanReview:
+            validated.identification_uncertainty === "high" ||
+            validated.evidence_clarity !== "clear",
         };
       }
     } catch (err: any) {
       clearTimeout(timeoutId);
-      if (err.name === "AbortError") {
-        console.warn("[GeminiCivic] Analysis timed out after 15s; using fallback simulation.");
-      } else {
-        console.warn("[GeminiCivic] Live API call failed, using fallback simulation:", err?.message || err);
+      console.warn("[GeminiCivic] Live API call failed:", err?.message || err);
+
+      if (options?.throwOnFailure) {
+        throw new GeminiUnavailableError("AI analysis temporarily unavailable");
       }
+
+      return getFallbackCivicAnalysis(userSelectedCategory);
     }
+  }
+
+  if (options?.throwOnFailure) {
+    throw new GeminiUnavailableError("AI analysis temporarily unavailable");
   }
 
   // Graceful heuristic fallback simulation (Buildathon Demo Mode)

@@ -267,9 +267,9 @@ export function RegisterForm() {
             className="py-2.5 text-xs sm:text-sm font-bold"
             icon={
               isSubmitting ? (
-                <RefreshCw className="w-3.5 h-3.5 animate-spin text-brand-lemon" />
+                <RefreshCw className="w-3.5 h-3.5 animate-spin text-white" />
               ) : (
-                <UserPlus className="w-3.5 h-3.5 text-brand-lemon" />
+                <UserPlus className="w-3.5 h-3.5 text-white" />
               )
             }
           >

@@ -6,11 +6,9 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/context";
 import {
   Sparkles,
-  MapPin,
   ShieldCheck,
-  Scan,
   AlertTriangle,
-  BarChart3,
+  Truck,
   CheckCircle2,
 } from "lucide-react";
 
@@ -23,8 +21,8 @@ interface AuthSplitLayoutProps {
 
 export function AuthSplitLayout({
   children,
-  heading = "Welcome to Nagardrishti AI",
-  subheading = "Sign in to access your ecological monitoring and municipal console.",
+  heading = "Welcome to NagarDrishti AI",
+  subheading = "Sign in to access your NagarDrishti portal.",
   isRegister = false,
 }: AuthSplitLayoutProps) {
   const router = useRouter();
@@ -55,7 +53,7 @@ export function AuthSplitLayout({
           <div className="flex items-center">
             <Image
               src="/images/nagardrishti-logo.png"
-              alt="Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence"
+              alt="NagarDrishti AI — AI-Driven Urban Ecosystem Intelligence"
               width={320}
               height={92}
               priority
@@ -64,84 +62,54 @@ export function AuthSplitLayout({
           </div>
 
           <div className="space-y-1.5 pt-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-white/10 border border-white/15 text-brand-lemon backdrop-blur-sm">
-              <Sparkles className="w-3 h-3" />
-              <span>Civic Environmental Intelligence</span>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-white/10 border border-white/20 text-white backdrop-blur-sm">
+              <Sparkles className="w-3 h-3 text-white" />
+              <span>CIVIC &amp; MUNICIPAL INTELLIGENCE</span>
             </div>
             <h1 className="text-2xl xl:text-[1.75rem] 2xl:text-3xl font-extrabold font-manrope tracking-tight leading-snug text-white">
-              Cleaner Cities. Smarter Communities.
+              Intelligence for Cities.<br />Impact for People.
             </h1>
             <p className="text-xs xl:text-sm text-brand-mint-cream/80 leading-relaxed font-inter max-w-sm">
-              AI-powered civic sanitation intelligence connecting citizens, AI vision and municipal operations.
+              AI-powered municipal intelligence connecting citizens, urban data and municipal operations to build cleaner and more accountable cities.
             </p>
           </div>
         </div>
 
-        {/* Center: Compact Bordered Feature Panel — 4 Key Capabilities */}
+        {/* Center: Compact Bordered Feature Panel — 2 Key Capabilities */}
         <div className="my-auto py-3">
-          <div className="rounded-2xl bg-white/5 backdrop-blur-md border border-white/15 p-3.5 xl:p-4 space-y-2.5 shadow-sm">
-            <div className="text-[10px] font-mono font-bold tracking-wider text-brand-lemon uppercase flex items-center gap-1.5 pb-1.5 border-b border-white/10">
-              <CheckCircle2 className="w-3.5 h-3.5 text-brand-lemon" />
+          <div className="rounded-2xl bg-white/5 backdrop-blur-md border border-white/15 p-4 xl:p-5 space-y-3.5 shadow-sm">
+            <div className="text-[10px] font-mono font-bold tracking-wider text-white uppercase flex items-center gap-1.5 pb-2 border-b border-white/10">
+              <CheckCircle2 className="w-3.5 h-3.5 text-white" />
               <span>Core Capabilities</span>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               {/* Capability 1 */}
-              <div className="flex items-start gap-2.5">
-                <div className="w-6 h-6 rounded-md bg-white/10 border border-white/15 flex items-center justify-center text-brand-lemon shrink-0 mt-0.5">
-                  <Scan className="w-3.5 h-3.5" />
+              <div className="flex items-start gap-3">
+                <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white shrink-0 mt-0.5">
+                  <AlertTriangle className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xs font-bold font-manrope text-white leading-tight">
-                    1. AI Smart Waste Segregation
+                  <h2 className="text-xs xl:text-sm font-bold font-manrope text-white leading-tight">
+                    AI-Powered Illegal Dumping Intelligence
                   </h2>
-                  <p className="text-[11px] text-brand-mint-cream/70 font-inter leading-tight mt-0.5">
-                    Real-time multi-class object detection and instant point-of-disposal guidance.
+                  <p className="text-[11px] xl:text-xs text-brand-mint-cream/70 font-inter leading-relaxed mt-1">
+                    Identify recurring garbage dumping locations through citizen reports, GPS intelligence, AI image analysis and hotspot monitoring.
                   </p>
                 </div>
               </div>
 
               {/* Capability 2 */}
-              <div className="flex items-start gap-2.5">
-                <div className="w-6 h-6 rounded-md bg-white/10 border border-white/15 flex items-center justify-center text-brand-lemon shrink-0 mt-0.5">
-                  <AlertTriangle className="w-3.5 h-3.5" />
+              <div className="flex items-start gap-3">
+                <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white shrink-0 mt-0.5">
+                  <Truck className="w-4 h-4 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xs font-bold font-manrope text-white leading-tight">
-                    2. Illegal Dumping Detection
+                  <h2 className="text-xs xl:text-sm font-bold font-manrope text-white leading-tight">
+                    Smart Waste Collection Monitoring
                   </h2>
-                  <p className="text-[11px] text-brand-mint-cream/70 font-inter leading-tight mt-0.5">
-                    Automated refuse taxonomy, contamination alerts, and hazard severity scoring.
-                  </p>
-                </div>
-              </div>
-
-              {/* Capability 3 */}
-              <div className="flex items-start gap-2.5">
-                <div className="w-6 h-6 rounded-md bg-white/10 border border-white/15 flex items-center justify-center text-brand-lemon shrink-0 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <h2 className="text-xs font-bold font-manrope text-white leading-tight">
-                    3. Geo-tagged Civic Issue Reporting
-                  </h2>
-                  <p className="text-[11px] text-brand-mint-cream/70 font-inter leading-tight mt-0.5">
-                    High-accuracy GPS telemetry connecting citizen sightings with ward dispatch.
-                  </p>
-                </div>
-              </div>
-
-              {/* Capability 4 */}
-              <div className="flex items-start gap-2.5">
-                <div className="w-6 h-6 rounded-md bg-white/10 border border-white/15 flex items-center justify-center text-brand-lemon shrink-0 mt-0.5">
-                  <BarChart3 className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <h2 className="text-xs font-bold font-manrope text-white leading-tight">
-                    4. Municipal Intelligence &amp; Analytics
-                  </h2>
-                  <p className="text-[11px] text-brand-mint-cream/70 font-inter leading-tight mt-0.5">
-                    Closed-loop photographic SLA audits, incident queues, and hotspot telemetry.
+                  <p className="text-[11px] xl:text-xs text-brand-mint-cream/70 font-inter leading-relaxed mt-1">
+                    Track ward-wise collection schedules, identify missed pickups and help municipal officers improve collection accountability.
                   </p>
                 </div>
               </div>
@@ -152,7 +120,7 @@ export function AuthSplitLayout({
         {/* Bottom Trust & Buildathon Identification */}
         <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-brand-mint-cream/70 font-mono">
           <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3 h-3 text-brand-lemon" />
+            <ShieldCheck className="w-3 h-3 text-white" />
             Google Startup Buildathon Platform
           </span>
           <span>Ward 04 Scale Telemetry</span>
@@ -166,43 +134,35 @@ export function AuthSplitLayout({
         <div className="flex items-center justify-between">
           <Image
             src="/images/nagardrishti-logo.png"
-            alt="Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence"
+            alt="NagarDrishti AI — AI-Driven Urban Ecosystem Intelligence"
             width={200}
             height={57}
             priority
             className="h-8 sm:h-9 w-auto object-contain block"
           />
-          <span className="text-[9px] font-mono text-brand-lemon px-2 py-0.5 rounded-full bg-white/10 border border-white/15">
-            Buildathon Platform
+          <span className="text-[9px] font-mono text-white px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20">
+            CIVIC &amp; MUNICIPAL INTELLIGENCE
           </span>
         </div>
 
         <div className="space-y-0.5">
           <h1 className="text-base sm:text-lg font-extrabold font-manrope text-white tracking-tight leading-snug">
-            Cleaner Cities. Smarter Communities.
+            Intelligence for Cities. Impact for People.
           </h1>
           <p className="text-[11px] text-brand-mint-cream/80 font-inter leading-tight">
-            AI-powered civic sanitation intelligence connecting citizens, AI vision and municipal operations.
+            AI-powered municipal intelligence connecting citizens, urban data and municipal operations to build cleaner and more accountable cities.
           </p>
         </div>
 
-        {/* 4 Capabilities as Compact Pills */}
-        <div className="grid grid-cols-2 gap-1 pt-0.5 text-[9px] font-manrope font-semibold text-brand-mint-cream">
-          <div className="flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md truncate">
-            <Scan className="w-2.5 h-2.5 text-brand-lemon shrink-0" />
-            <span className="truncate">AI Segregation</span>
+        {/* 2 Capabilities as Compact Pills */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-0.5 text-[10px] font-manrope font-semibold text-brand-mint-cream">
+          <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1 rounded-md">
+            <AlertTriangle className="w-3 h-3 text-white shrink-0" />
+            <span className="truncate">Illegal Dumping Intelligence</span>
           </div>
-          <div className="flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md truncate">
-            <AlertTriangle className="w-2.5 h-2.5 text-brand-lemon shrink-0" />
-            <span className="truncate">Dumping Detection</span>
-          </div>
-          <div className="flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md truncate">
-            <MapPin className="w-2.5 h-2.5 text-brand-lemon shrink-0" />
-            <span className="truncate">Civic Reporting</span>
-          </div>
-          <div className="flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md truncate">
-            <BarChart3 className="w-2.5 h-2.5 text-brand-lemon shrink-0" />
-            <span className="truncate">Municipal Analytics</span>
+          <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1 rounded-md">
+            <Truck className="w-3 h-3 text-white shrink-0" />
+            <span className="truncate">Collection Monitoring</span>
           </div>
         </div>
       </div>
@@ -230,7 +190,7 @@ export function AuthSplitLayout({
           {/* Footer Identification */}
           <div className="text-center text-[11px] text-brand-muted-slate font-inter">
             <p>
-              Nagardrishti AI • Multi-Role Access Control System • Module 01
+              NagarDrishti AI • Multi-Role Access Control System
             </p>
           </div>
         </div>

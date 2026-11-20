@@ -42,15 +42,13 @@ export function UserMenu() {
   if (!user) {
     return (
       <div className="flex items-center gap-2">
-        <Button
+        <Link
           href="/login"
-          variant="primary"
-          size="sm"
-          icon={<LogIn className="w-3.5 h-3.5 text-brand-mint" />}
-          className="text-xs lg:text-sm px-4"
+          className="text-xs lg:text-sm px-4 py-2 rounded-xl bg-white text-[#143D2B] hover:bg-white/90 font-bold transition-all shadow-sm flex items-center gap-1.5"
         >
-          Sign In
-        </Button>
+          <LogIn className="w-3.5 h-3.5 text-[#143D2B]" />
+          <span>Sign In</span>
+        </Link>
       </div>
     );
   }
@@ -66,21 +64,21 @@ export function UserMenu() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 p-1.5 rounded-full hover:bg-brand-soft-sage/80 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-leaf-green"
+        className="flex items-center gap-2 p-1.5 pr-2.5 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/20 text-white"
         aria-expanded={isOpen}
       >
-        <div className="w-8 h-8 rounded-full bg-brand-deep-forest text-brand-mint flex items-center justify-center font-bold text-xs font-manrope border border-brand-mint/30 shadow-sm">
+        <div className="w-8 h-8 rounded-full bg-white text-[#143D2B] flex items-center justify-center font-bold text-xs font-manrope shadow-sm border border-white/20">
           {user.fullName.charAt(0).toUpperCase()}
         </div>
         <div className="hidden sm:flex flex-col text-left">
-          <span className="text-xs font-bold font-manrope text-brand-deep-forest leading-tight truncate max-w-[120px]">
+          <span className="text-xs font-bold font-manrope text-white leading-tight truncate max-w-[120px]">
             {user.fullName}
           </span>
-          <span className="text-[10px] text-brand-charcoal/60 capitalize leading-none">
+          <span className="text-[10px] text-white/70 capitalize font-mono leading-none">
             {user.role.replace("_", " ")}
           </span>
         </div>
-        <ChevronDown className="w-3.5 h-3.5 text-brand-charcoal/50" />
+        <ChevronDown className="w-3.5 h-3.5 text-white/70" />
       </button>
 
       {isOpen && (

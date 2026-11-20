@@ -3,7 +3,7 @@ import { AuthSplitLayout } from "@/components/auth/AuthSplitLayout";
 import { LoginForm } from "@/components/auth/LoginForm";
 
 export const metadata = {
-  title: "Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence",
+  title: "NagarDrishti AI — AI-Driven Urban Ecosystem Intelligence",
   description:
     "Intelligent civic waste infrastructure and automated municipal incident triage platform.",
 };
@@ -11,8 +11,8 @@ export const metadata = {
 export default function RootEntryPage() {
   return (
     <AuthSplitLayout
-      heading="Welcome to Nagardrishti AI"
-      subheading="Sign in to access your ecological monitoring and municipal console."
+      heading="Welcome to NagarDrishti AI"
+      subheading="Sign in to access your NagarDrishti portal."
     >
       <Suspense
         fallback={

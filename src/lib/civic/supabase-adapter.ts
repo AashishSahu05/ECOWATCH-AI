@@ -7,6 +7,9 @@ import {
   AssignCivicReportDTO,
   RecordResolutionEvidenceDTO,
   RecordFeedbackDTO,
+  EscalateCivicReportDTO,
+  ReopenCivicReportDTO,
+  SlaEscalationProcessResult,
   CivicReportFilter,
   CivicReportCategory,
   CivicServiceArea,
@@ -427,6 +430,66 @@ export class SupabaseCivicReportAdapter implements CivicReportAdapter {
     const report = await this.getReportById(dto.reportId);
     if (!report) throw new Error("Could not retrieve report after feedback.");
     return report;
+  }
+
+  async reopenReport(dto: ReopenCivicReportDTO): Promise<CivicReport> {
+    const supabase = this.getClient();
+    const now = new Date().toISOString();
+
+    const { error: updErr } = await supabase
+      .from("civic_reports")
+      .update({
+        status: "in_progress",
+        updated_at: now,
+      })
+      .eq("id", dto.reportId);
+
+    if (updErr) throw new Error(`Failed to reopen report: ${updErr.message}`);
+
+    await supabase.from("civic_report_status_history").insert({
+      report_id: dto.reportId,
+      actor_id: dto.citizenId,
+      actor_role: "citizen",
+      previous_status: "resolved",
+      new_status: "in_progress",
+      remarks: `Complaint reopened by citizen: ${dto.reason}`,
+      created_at: now,
+    });
+
+    const report = await this.getReportById(dto.reportId);
+    if (!report) throw new Error("Could not retrieve report after reopening.");
+    return report;
+  }
+
+  async escalateReport(dto: EscalateCivicReportDTO): Promise<CivicReport> {
+    const supabase = this.getClient();
+    const now = new Date().toISOString();
+
+    await supabase.from("civic_report_status_history").insert({
+      report_id: dto.reportId,
+      actor_id: dto.actorId,
+      actor_role: dto.actorRole,
+      actor_name: dto.actorName || "System Escalation Engine",
+      remarks: `ESCALATED TO LEVEL ${dto.targetLevel}: ${dto.reason || "SLA breached"}`,
+      created_at: now,
+    });
+
+    const report = await this.getReportById(dto.reportId);
+    if (!report) throw new Error("Could not retrieve report after escalation.");
+    return report;
+  }
+
+  async processSlaEscalations(options?: {
+    now?: number;
+    defaultSlaHours?: number;
+  }): Promise<SlaEscalationProcessResult> {
+    return {
+      scannedCount: 0,
+      escalatedCount: 0,
+      skippedResolvedCount: 0,
+      skippedAlreadyEscalatedCount: 0,
+      escalations: [],
+    };
   }
 
   async getCategories(): Promise<CivicReportCategory[]> {

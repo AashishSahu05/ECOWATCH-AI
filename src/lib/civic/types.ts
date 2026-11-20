@@ -33,9 +33,12 @@ export type CivicReportStatus =
   | 'closed'
   | 'rejected'
   | 'duplicate'
-  | 'cancelled';
+  | 'cancelled'
+  | 'reopened';
 
 export type CivicSeverity = 'low' | 'medium' | 'high' | 'critical';
+export type CivicAdvisorySeverity = 'low' | 'medium' | 'high';
+export type CivicAIAnalysisStatus = 'PENDING' | 'COMPLETED' | 'FAILED';
 
 export type CivicEvidenceClarity = 'clear' | 'partially_obscured' | 'poor';
 
@@ -121,6 +124,7 @@ export interface CivicResolutionEvidence {
   resolutionNotes: string;
   wasteVolumeClearedMetric?: string | null;
   destinationFacility?: string | null;
+  beforePhotographUrl?: string | null;
   afterPhotographUrl: string;
   createdAt: string;
 }
@@ -131,6 +135,8 @@ export interface CivicReportFeedback {
   citizenId: string;
   rating: number; // 1 to 5
   feedbackComment?: string | null;
+  action?: 'confirm' | 'reopen';
+  isResolvedConfirmed?: boolean;
   createdAt: string;
 }
 
@@ -157,6 +163,14 @@ export interface CivicReport {
   resolutionEvidence?: CivicResolutionEvidence | null;
   feedback?: CivicReportFeedback | null;
   isAnonymous: boolean;
+  escalationLevel?: 1 | 2 | 3;
+  escalatedAt?: string | null;
+  slaHours?: number;
+  slaDeadline?: string | null;
+  citizenVerified?: boolean;
+  reopenedCount?: number;
+  reopenedAt?: string | null;
+  reopenReason?: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -173,6 +187,8 @@ export interface CivicAIAnalysisDTO {
   estimatedWasteVolume?: string;
   rawModelResponse?: Record<string, unknown> | null;
   isMockResult?: boolean;
+  aiAnalysisStatus?: CivicAIAnalysisStatus;
+  requiresHumanReview?: boolean;
 }
 
 export interface CreateCivicReportDTO {
@@ -187,6 +203,7 @@ export interface CreateCivicReportDTO {
     storagePath?: string;
   }[];
   aiAnalysis?: CivicAIAnalysisDTO;
+  aiAnalysisStatus?: CivicAIAnalysisStatus;
   isAnonymous?: boolean;
 }
 
@@ -209,6 +226,7 @@ export interface AssignCivicReportDTO {
   officerInChargeName?: string;
   targetResolutionDate?: string;
   specialInstructions?: string;
+  slaHours?: number;
 }
 
 export interface RecordResolutionEvidenceDTO {
@@ -218,14 +236,49 @@ export interface RecordResolutionEvidenceDTO {
   resolutionNotes: string;
   wasteVolumeClearedMetric?: string;
   destinationFacility?: string;
+  beforePhotographUrl?: string;
   afterPhotographUrl: string;
 }
 
 export interface RecordFeedbackDTO {
   reportId: string;
   citizenId: string;
-  rating: number;
+  rating?: number;
   feedbackComment?: string;
+  action?: 'confirm' | 'reopen';
+  isResolvedConfirmed?: boolean;
+}
+
+export interface EscalateCivicReportDTO {
+  reportId: string;
+  targetLevel: 2 | 3;
+  actorId: string;
+  actorRole: 'system' | 'municipal_officer' | 'administrator';
+  actorName?: string;
+  reason?: string;
+}
+
+export interface ReopenCivicReportDTO {
+  reportId: string;
+  citizenId: string;
+  citizenName?: string;
+  reason: string;
+}
+
+export interface SlaEscalationProcessResult {
+  scannedCount: number;
+  escalatedCount: number;
+  skippedResolvedCount: number;
+  skippedAlreadyEscalatedCount: number;
+  escalations: Array<{
+    reportId: string;
+    referenceNumber: string;
+    fromLevel: number;
+    toLevel: number;
+    targetRole: string;
+    reason: string;
+    breachedAt: string;
+  }>;
 }
 
 export interface CivicReportFilter {
@@ -248,6 +301,9 @@ export interface CivicReportAdapter {
   assignReport(dto: AssignCivicReportDTO): Promise<CivicReport>;
   recordResolutionEvidence(dto: RecordResolutionEvidenceDTO): Promise<CivicReport>;
   recordFeedback(dto: RecordFeedbackDTO): Promise<CivicReport>;
+  escalateReport(dto: EscalateCivicReportDTO): Promise<CivicReport>;
+  reopenReport(dto: ReopenCivicReportDTO): Promise<CivicReport>;
+  processSlaEscalations(options?: { now?: number; defaultSlaHours?: number }): Promise<SlaEscalationProcessResult>;
   getCategories(): Promise<CivicReportCategory[]>;
   getServiceAreas(): Promise<CivicServiceArea[]>;
 }

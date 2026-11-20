@@ -128,6 +128,7 @@ export function computeVolumeStats(reports: CivicReport[]): IncidentVolumeStats 
     rejected: 0,
     duplicate: 0,
     cancelled: 0,
+    reopened: 0,
   };
 
   const bySeverity: Record<CivicSeverity, number> = {

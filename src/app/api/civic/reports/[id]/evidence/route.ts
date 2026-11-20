@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getCivicReportAdapter } from "@/lib/civic/adapter";
 import { CivicResolutionEvidenceSchema } from "@/lib/civic/schema";
-import { authenticationErrorResponse, requireServerRole } from "@/lib/auth/server";
+import { authenticationErrorResponse, requireServerRole, assertMunicipalWardAccess } from "@/lib/auth/server";
 
 export async function POST(
   request: Request,
@@ -10,6 +10,16 @@ export async function POST(
   try {
     const { id } = await params;
     const officer = await requireServerRole(request, ["municipal_officer", "administrator"], { freshUser: true });
+    const adapter = getCivicReportAdapter();
+    const existing = await adapter.getReportById(id);
+    if (!existing) {
+      return NextResponse.json({ error: "Civic report not found." }, { status: 404 });
+    }
+
+    if (officer.role === "municipal_officer") {
+      assertMunicipalWardAccess(officer, existing.location.serviceAreaId || undefined);
+    }
+
     const body = await request.json();
 
     const validated = CivicResolutionEvidenceSchema.parse({
@@ -17,7 +27,6 @@ export async function POST(
       reportId: id,
     });
 
-    const adapter = getCivicReportAdapter();
     const updated = await adapter.recordResolutionEvidence({
       reportId: id,
       officerId: officer.id,
@@ -25,6 +34,7 @@ export async function POST(
       resolutionNotes: validated.resolutionNotes,
       wasteVolumeClearedMetric: validated.wasteVolumeClearedMetric,
       destinationFacility: validated.destinationFacility,
+      beforePhotographUrl: validated.beforePhotographUrl,
       afterPhotographUrl: validated.afterPhotographUrl,
     });
 

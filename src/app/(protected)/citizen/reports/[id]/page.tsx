@@ -466,7 +466,7 @@ export default function CitizenReportDetailPage({
                         <Star
                           key={star}
                           className={`w-4 h-4 ${
-                            star <= report.feedback!.rating ? "fill-amber-400" : "text-gray-300"
+                            star <= (report.feedback?.rating ?? 0) ? "fill-amber-400" : "text-gray-300"
                           }`}
                         />
                       ))}

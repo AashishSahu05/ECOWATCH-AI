@@ -8,22 +8,19 @@ import { useAuth } from "@/lib/auth/context";
 import { UserMenu } from "./UserMenu";
 import {
   LayoutDashboard,
-  PlusCircle,
   FolderOpen,
-  Sparkles,
   ClipboardList,
   Truck,
   BarChart3,
   Users2,
-  FileText,
-  Sliders,
   Menu,
   X,
   User,
   LogOut,
   ChevronRight,
   ShieldCheck,
-  Route,
+  AlertTriangle,
+  Flame,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -33,18 +30,23 @@ interface DashboardNavProps {
 
 export function DashboardNav({ currentSection }: DashboardNavProps) {
   const pathname = usePathname();
-  const { user, signOut, isMockMode } = useAuth();
+  const { user, signOut } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
+  const [currentSearch, setCurrentSearch] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setCurrentHash(window.location.hash);
-      const handleHashChange = () => setCurrentHash(window.location.hash);
-      window.addEventListener("hashchange", handleHashChange);
-      return () => window.removeEventListener("hashchange", handleHashChange);
+      setCurrentSearch(window.location.search);
+      const handleLocationChange = () => {
+        setCurrentHash(window.location.hash);
+        setCurrentSearch(window.location.search);
+      };
+      window.addEventListener("hashchange", handleLocationChange);
+      return () => window.removeEventListener("hashchange", handleLocationChange);
     }
-  }, []);
+  }, [pathname]);
 
   // Close mobile drawer on route change
   useEffect(() => {
@@ -65,18 +67,18 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
     if (isAdmin) {
       return {
         label: "Administrator",
-        badgeClass: "bg-purple-100 text-purple-900 border-purple-200",
+        badgeClass: "bg-white/10 text-white border-white/20",
       };
     }
     if (isOfficer) {
       return {
         label: "Municipal Officer",
-        badgeClass: "bg-brand-mint-cream text-brand-emerald border-brand-soft-sage",
+        badgeClass: "bg-white/10 text-white border-white/20",
       };
     }
     return {
-      label: "Citizen",
-      badgeClass: "bg-brand-mint-cream text-brand-deep-green border-brand-soft-sage",
+      label: "Citizen Portal",
+      badgeClass: "bg-white/10 text-white border-white/20",
     };
   };
 
@@ -85,9 +87,10 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
   // Navigation configurations tailored strictly per role
   const citizenNav = [
     { label: "Overview", href: "/citizen/dashboard", icon: LayoutDashboard, exact: true },
-    { label: "Report Issue", href: "/citizen/report", icon: PlusCircle },
-    { label: "My Reports", href: "/citizen/reports", icon: FolderOpen },
-    { label: "AI Segregation", href: "/citizen/segregation", icon: Sparkles },
+    { label: "Report Illegal Dumping", href: "/citizen/report", icon: AlertTriangle, isPrimary: true },
+    { label: "Nearby Hotspots", href: "/citizen/hotspots", icon: Flame },
+    { label: "My Complaints", href: "/citizen/reports", icon: FolderOpen },
+    { label: "Missed Collection", href: "/citizen/report?category=cat_missed_collection", icon: Truck },
   ];
 
   const officerNav = [
@@ -95,8 +98,6 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
     { label: "Report Queue", href: "/officer/reports", icon: ClipboardList },
     { label: "Operations", href: "/officer/operations", icon: Truck, exact: true },
     { label: "Cleanup", href: "/officer/cleanup", icon: ShieldCheck },
-    { label: "Routes", href: "/officer/operations/routes", icon: Route },
-    { label: "Root Causes", href: "/officer/operations/root-causes", icon: Sparkles },
     { label: "Analytics", href: "/officer/analytics", icon: BarChart3 },
   ];
 
@@ -111,10 +112,22 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
   const activeNavItems = isAdmin ? adminNav : isOfficer ? officerNav : citizenNav;
 
   const isLinkActive = (item: { href: string; exact?: boolean }) => {
-    const [targetPath, targetHash] = item.href.split("#");
+    const [targetPathWithQuery, targetHash] = item.href.split("#");
+    const [targetPath, targetQuery] = targetPathWithQuery.split("?");
+
     if (targetHash) {
       return pathname === targetPath && currentHash === `#${targetHash}`;
     }
+
+    if (targetQuery) {
+      return pathname === targetPath && currentSearch.includes(targetQuery);
+    }
+
+    // If on a sub-category query (e.g. ?category=cat_missed_collection), do not highlight generic report
+    if (currentSearch && currentSearch.includes("category=") && pathname === targetPath) {
+      return false;
+    }
+
     if (item.exact) {
       return pathname === targetPath && (!currentHash || currentHash === "");
     }
@@ -125,38 +138,41 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-brand-cloud-white/95 backdrop-blur-md border-b border-brand-soft-sage py-2.5 shadow-subtle">
+    <header className="sticky top-0 z-40 w-full bg-[#143D2B] border-b border-[#1A4E37] text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
-          {/* Brand Logo (Official Asset) + Role Identity */}
+        <div className="flex items-center justify-between h-16 gap-4">
+          {/* Brand Logo & Name: NAGARDRISHTI AI */}
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href={getDashboardHome()}
-              className="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-emerald rounded-lg"
+              className="flex items-center gap-2.5 group focus:outline-none"
               title="Return to Dashboard Overview"
             >
-              <div className="bg-[#143D2B] px-2.5 py-1 rounded-lg flex items-center justify-center shadow-xs transition-opacity group-hover:opacity-95">
-                <Image
-                  src="/images/nagardrishti-logo.png"
-                  alt="Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence"
-                  width={150}
-                  height={43}
-                  priority
-                  className="h-7 sm:h-8 w-auto object-contain block"
-                />
+              <Image
+                src="/images/nagardrishti-logo.png"
+                alt="NAGARDRISHTI AI"
+                width={140}
+                height={40}
+                priority
+                className="h-7 sm:h-8 w-auto object-contain block"
+              />
+              <div className="flex flex-col">
+                <span className="font-extrabold font-manrope text-base sm:text-lg tracking-tight text-white leading-tight uppercase">
+                  NAGARDRISHTI AI
+                </span>
+                <span className="hidden sm:inline-block text-[9px] font-mono tracking-wider uppercase text-white/70 font-semibold leading-none">
+                  Civic Environmental Intelligence
+                </span>
               </div>
-              <span className={cn("hidden md:inline-flex text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border", roleInfo.badgeClass)}>
-                {roleInfo.label}
-              </span>
             </Link>
 
-            <span className={cn("sm:hidden text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border", roleInfo.badgeClass)}>
-              {isCitizen ? "Citizen" : isOfficer ? "Officer" : "Admin"}
+            <span className={cn("hidden md:inline-flex text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border", roleInfo.badgeClass)}>
+              {roleInfo.label} • Ward 04
             </span>
           </div>
 
-          {/* Desktop Center Navigation Bar — Role-Tailored */}
-          <nav className="hidden lg:flex items-center gap-1 bg-brand-mint-cream/80 p-1 rounded-full border border-brand-soft-sage shadow-subtle">
+          {/* Desktop Center Navigation Bar — Two-Color Deep Forest Green & Crisp White */}
+          <nav className="hidden lg:flex items-center gap-1.5 bg-black/15 p-1 rounded-full border border-white/10">
             {activeNavItems.map((item) => {
               const active = isLinkActive(item);
               const Icon = item.icon;
@@ -167,11 +183,11 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
                   className={cn(
                     "px-3 xl:px-3.5 py-1.5 rounded-full text-xs font-semibold font-manrope transition-all duration-150 flex items-center gap-1.5 whitespace-nowrap",
                     active
-                      ? "bg-brand-emerald text-white shadow-xs font-bold"
-                      : "text-brand-deep-green hover:text-brand-emerald hover:bg-white/80"
+                      ? "bg-white text-[#143D2B] shadow-sm font-bold"
+                      : "text-white/80 hover:text-white hover:bg-white/10"
                   )}
                 >
-                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <Icon className={cn("w-3.5 h-3.5 shrink-0", active ? "text-[#143D2B]" : "text-white/80")} />
                   <span>{item.label}</span>
                 </Link>
               );
@@ -186,11 +202,11 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-xl text-brand-deep-green hover:bg-brand-mint-cream border border-brand-soft-sage/80 focus:outline-none focus:ring-2 focus:ring-brand-emerald"
+              className="lg:hidden p-2 rounded-xl text-white hover:bg-white/10 border border-white/15 focus:outline-none focus:ring-2 focus:ring-white/30"
               aria-label="Toggle Dashboard Navigation Menu"
               aria-expanded={mobileMenuOpen}
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 text-white" /> : <Menu className="w-5 h-5 text-white" />}
             </button>
           </div>
         </div>
@@ -198,31 +214,31 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
 
       {/* Mobile Drawer Navigation for Dashboards */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-brand-soft-sage bg-brand-cloud-white px-4 pt-3 pb-6 shadow-card animate-in slide-in-from-top-2 duration-200 mt-2.5">
+        <div className="lg:hidden border-t border-white/10 bg-[#113525] px-4 pt-3 pb-6 shadow-card animate-in slide-in-from-top-2 duration-200">
           {/* User Status Bar */}
-          <div className="p-3 mb-3 rounded-2xl bg-brand-mint-cream/80 border border-brand-soft-sage flex items-center justify-between">
+          <div className="p-3 mb-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between text-white">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-brand-emerald text-white flex items-center justify-center font-bold text-xs font-manrope">
+              <div className="w-8 h-8 rounded-full bg-white text-[#143D2B] flex items-center justify-center font-bold text-xs font-manrope">
                 {user?.fullName.charAt(0).toUpperCase()}
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-bold font-manrope text-brand-deep-green truncate max-w-[180px]">
+                <span className="text-xs font-bold font-manrope text-white truncate max-w-[180px]">
                   {user?.fullName}
                 </span>
-                <span className="text-[10px] font-mono text-brand-emerald font-semibold uppercase">
+                <span className="text-[10px] font-mono text-white/70 font-semibold uppercase">
                   {roleInfo.label}
                 </span>
               </div>
             </div>
-            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-white border border-brand-soft-sage text-brand-deep-green">
+            <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-white/10 border border-white/20 text-white">
               {user?.role.replace("_", " ")}
             </span>
           </div>
 
           {/* Navigation Links */}
           <div className="flex flex-col gap-1">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-brand-muted-slate px-3 py-1 font-bold">
-              Dashboard Navigation
+            <span className="text-[10px] font-mono uppercase tracking-wider text-white/60 px-3 py-1 font-bold">
+              Navigation
             </span>
             {activeNavItems.map((item) => {
               const active = isLinkActive(item);
@@ -235,28 +251,28 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
                   className={cn(
                     "px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between",
                     active
-                      ? "bg-brand-emerald text-white shadow-xs font-bold"
-                      : "text-brand-deep-green hover:bg-brand-mint-cream"
+                      ? "bg-white text-[#143D2B] shadow-sm font-bold"
+                      : "text-white/80 hover:bg-white/10 hover:text-white"
                   )}
                 >
                   <div className="flex items-center gap-2.5">
                     <Icon className="w-4 h-4 shrink-0" />
                     <span>{item.label}</span>
                   </div>
-                  <ChevronRight className={cn("w-4 h-4", active ? "text-white" : "text-brand-muted-slate/50")} />
+                  <ChevronRight className={cn("w-4 h-4", active ? "text-[#143D2B]" : "text-white/50")} />
                 </Link>
               );
             })}
           </div>
 
           {/* Secondary Actions */}
-          <div className="pt-4 mt-3 border-t border-brand-soft-sage/80 flex flex-col gap-2">
+          <div className="pt-4 mt-3 border-t border-white/10 flex flex-col gap-2">
             <Link
               href="/profile"
               onClick={() => setMobileMenuOpen(false)}
-              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-brand-deep-green hover:bg-brand-mint-cream flex items-center gap-2"
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-white/90 hover:bg-white/10 flex items-center gap-2"
             >
-              <User className="w-4 h-4 text-brand-fresh-green" />
+              <User className="w-4 h-4 text-white" />
               <span>Profile & Credentials</span>
             </Link>
 
@@ -266,9 +282,9 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
                 setMobileMenuOpen(false);
                 signOut();
               }}
-              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-red-600 hover:bg-red-50 flex items-center gap-2 text-left cursor-pointer transition-colors"
+              className="px-3.5 py-2 rounded-xl text-xs font-semibold text-red-300 hover:bg-red-500/10 flex items-center gap-2 text-left cursor-pointer transition-colors"
             >
-              <LogOut className="w-4 h-4 text-red-600" />
+              <LogOut className="w-4 h-4 text-red-300" />
               <span>Sign Out</span>
             </button>
           </div>

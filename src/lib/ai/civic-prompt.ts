@@ -24,9 +24,8 @@ AVAILABLE CIVIC CATEGORIES (Choose the single most applicable):
 - cat_construction: Construction & Demolition Debris (masonry, broken bricks, plaster, concrete rubble)
 - cat_other: Other Civic Sanitation Issues (general sanitation hazards, carcasses, stagnant effluent)
 
-SEVERITY GUIDELINES (Advisory):
-- critical: Immediate risk of urban flooding (drain blockage), severe bio-hazard, or complete road obstruction.
-- high: Large open dumping (>2 cubic meters), construction rubble on road, sharp debris near footpaths.
+SEVERITY GUIDELINES (Advisory — Only 3 levels permitted):
+- high: Large open dumping (>2 cubic meters), acute road obstruction, toxic/sharp debris, or drainage flooding risk.
 - medium: Overflowing bins, moderate roadside litter heaps, localized odor issues.
 - low: Minor scattered paper/dry litter, single uncollected bag.
 
@@ -65,8 +64,8 @@ export const CIVIC_ANALYSIS_JSON_SCHEMA = {
     },
     suggested_severity: {
       type: "STRING",
-      enum: ["low", "medium", "high", "critical"],
-      description: "Advisory urgency level for municipal dispatch.",
+      enum: ["low", "medium", "high"],
+      description: "Advisory urgency level strictly adhering to 'low', 'medium', or 'high'.",
     },
     identification_uncertainty: {
       type: "STRING",

@@ -6,6 +6,9 @@ import {
   AssignCivicReportDTO,
   RecordResolutionEvidenceDTO,
   RecordFeedbackDTO,
+  EscalateCivicReportDTO,
+  ReopenCivicReportDTO,
+  SlaEscalationProcessResult,
   CivicReportFilter,
   CivicReportCategory,
   CivicServiceArea,
@@ -14,6 +17,12 @@ import {
 import { CIVIC_CATEGORIES, getCategoryName } from "./categories";
 import { CIVIC_SERVICE_AREAS, getServiceAreaById } from "./service-areas";
 import { SEED_CIVIC_REPORTS } from "./mock-data";
+import {
+  calculateSlaDeadline,
+  getConfiguredSlaHours,
+  evaluateEscalation,
+  dispatchEscalationNotification,
+} from "./escalation-engine";
 
 const STORAGE_KEY = "ecowatch_civic_reports_v1";
 
@@ -25,6 +34,9 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
   }
 
   private getStore(): CivicReport[] {
+    if (this.reportsStore && this.reportsStore.length > 0) {
+      return this.reportsStore;
+    }
     if (typeof window !== "undefined") {
       try {
         const stored = localStorage.getItem(STORAGE_KEY);
@@ -265,6 +277,10 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
     const current = reports[index];
     const now = new Date().toISOString();
 
+    // Server-side SLA deadline calculation: ignore unverified frontend deadlines
+    const slaHours = dto.slaHours && dto.slaHours > 0 ? dto.slaHours : getConfiguredSlaHours();
+    const serverSlaDeadline = calculateSlaDeadline(now, slaHours);
+
     const assignment = {
       id: `asgn_${Date.now()}`,
       reportId: current.id,
@@ -273,7 +289,7 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
       assignedToTeam: dto.assignedToTeam,
       officerInChargeId: dto.officerInChargeId || dto.assignedBy,
       officerInChargeName: dto.officerInChargeName || dto.assignedByName,
-      targetResolutionDate: dto.targetResolutionDate,
+      targetResolutionDate: serverSlaDeadline,
       specialInstructions: dto.specialInstructions,
       createdAt: now,
     };
@@ -282,6 +298,10 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
       ...current,
       status: "assigned",
       currentAssignment: assignment,
+      escalationLevel: 1, // Initial assignment is Level 1: Assigned Municipal Officer
+      slaHours,
+      slaDeadline: serverSlaDeadline,
+      citizenVerified: false,
       updatedAt: now,
       statusHistory: [
         ...current.statusHistory,
@@ -293,7 +313,7 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
           actorRole: "municipal_officer",
           previousStatus: current.status,
           newStatus: "assigned",
-          remarks: `Assigned to ${dto.assignedToTeam}${dto.specialInstructions ? `: ${dto.specialInstructions}` : ""}`,
+          remarks: `Assigned to ${dto.assignedToTeam}. SLA deadline: ${slaHours}h (${serverSlaDeadline})${dto.specialInstructions ? ` - ${dto.specialInstructions}` : ""}`,
           createdAt: now,
         },
       ],
@@ -314,6 +334,13 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
     const current = reports[index];
     const now = new Date().toISOString();
 
+    // Preserve before photograph from initial report media if not explicitly provided
+    const beforePhoto =
+      dto.beforePhotographUrl ||
+      current.resolutionEvidence?.beforePhotographUrl ||
+      current.media[0]?.publicUrl ||
+      "";
+
     const evidence = {
       id: `res_${Date.now()}`,
       reportId: current.id,
@@ -322,14 +349,17 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
       resolutionNotes: dto.resolutionNotes,
       wasteVolumeClearedMetric: dto.wasteVolumeClearedMetric,
       destinationFacility: dto.destinationFacility,
+      beforePhotographUrl: beforePhoto,
       afterPhotographUrl: dto.afterPhotographUrl,
       createdAt: now,
     };
 
+    // IMPORTANT: A complaint must NOT be considered citizen-verified simply because an officer marks it resolved.
     const updated: CivicReport = {
       ...current,
       status: "resolved",
       resolutionEvidence: evidence,
+      citizenVerified: false,
       updatedAt: now,
       statusHistory: [
         ...current.statusHistory,
@@ -341,7 +371,7 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
           actorRole: "municipal_officer",
           previousStatus: current.status,
           newStatus: "resolved",
-          remarks: `Cleanup completed. ${dto.wasteVolumeClearedMetric ? `Volume cleared: ${dto.wasteVolumeClearedMetric}. ` : ""}Destination: ${dto.destinationFacility || "Authorized Facility"}.`,
+          remarks: `Officer logged cleanup completion. Before & after photographic evidence archived. Awaiting citizen verification. Notes: ${dto.resolutionNotes}`,
           createdAt: now,
         },
       ],
@@ -362,24 +392,217 @@ export class MockCivicReportAdapter implements CivicReportAdapter {
     const current = reports[index];
     const now = new Date().toISOString();
 
+    // If citizen indicates garbage is still present, reopen the complaint
+    if (dto.action === "reopen" || dto.isResolvedConfirmed === false) {
+      return this.reopenReport({
+        reportId: dto.reportId,
+        citizenId: dto.citizenId,
+        reason: dto.feedbackComment || "Citizen reported garbage is still present at site.",
+      });
+    }
+
     const feedback = {
       id: `fb_${Date.now()}`,
       reportId: current.id,
       citizenId: dto.citizenId,
-      rating: dto.rating,
+      rating: dto.rating || 5,
       feedbackComment: dto.feedbackComment,
+      action: dto.action || "confirm",
+      isResolvedConfirmed: true,
       createdAt: now,
     };
 
+    // Citizen confirmed resolution -> formally transition to 'closed' and mark citizenVerified
     const updated: CivicReport = {
       ...current,
+      status: "closed",
       feedback,
+      citizenVerified: true,
       updatedAt: now,
+      statusHistory: [
+        ...current.statusHistory,
+        {
+          id: `hist_${Date.now()}`,
+          reportId: current.id,
+          actorId: dto.citizenId,
+          actorName: current.citizenName || "Citizen",
+          actorRole: "citizen",
+          previousStatus: current.status,
+          newStatus: "closed",
+          remarks: `Citizen verified cleanup successfully. Rating: ${dto.rating || 5}/5.${dto.feedbackComment ? ` Comment: "${dto.feedbackComment}"` : ""}`,
+          createdAt: now,
+        },
+      ],
     };
 
     reports[index] = updated;
     this.saveStore(reports);
     return updated;
+  }
+
+  async reopenReport(dto: ReopenCivicReportDTO): Promise<CivicReport> {
+    const reports = this.getStore();
+    const index = reports.findIndex((r) => r.id === dto.reportId);
+    if (index === -1) {
+      throw new Error(`Report not found with ID: ${dto.reportId}`);
+    }
+
+    const current = reports[index];
+    const now = new Date().toISOString();
+
+    // Reset SLA deadline for fresh cleanup pass
+    const slaHours = current.slaHours || getConfiguredSlaHours();
+    const newSlaDeadline = calculateSlaDeadline(now, slaHours);
+
+    const updated: CivicReport = {
+      ...current,
+      status: "in_progress",
+      citizenVerified: false,
+      reopenedCount: (current.reopenedCount || 0) + 1,
+      reopenedAt: now,
+      reopenReason: dto.reason,
+      slaDeadline: newSlaDeadline,
+      updatedAt: now,
+      statusHistory: [
+        ...current.statusHistory,
+        {
+          id: `hist_${Date.now()}`,
+          reportId: current.id,
+          actorId: dto.citizenId,
+          actorName: dto.citizenName || current.citizenName || "Citizen",
+          actorRole: "citizen",
+          previousStatus: current.status,
+          newStatus: "in_progress",
+          remarks: `COMPLAINT REOPENED BY CITIZEN: Garbage is still present at site. Reason: "${dto.reason}". New remedial SLA deadline: ${slaHours}h.`,
+          createdAt: now,
+        },
+      ],
+    };
+
+    reports[index] = updated;
+    this.saveStore(reports);
+    return updated;
+  }
+
+  async escalateReport(dto: EscalateCivicReportDTO): Promise<CivicReport> {
+    const reports = this.getStore();
+    const index = reports.findIndex((r) => r.id === dto.reportId);
+    if (index === -1) {
+      throw new Error(`Report not found with ID: ${dto.reportId}`);
+    }
+
+    const current = reports[index];
+    const now = new Date().toISOString();
+
+    // Prevent duplicate escalation at the same level
+    if (current.escalationLevel === dto.targetLevel) {
+      return current;
+    }
+
+    const roleTitle =
+      dto.targetLevel === 2
+        ? "Senior Municipal Officer"
+        : "City Administrator";
+
+    const updated: CivicReport = {
+      ...current,
+      escalationLevel: dto.targetLevel,
+      escalatedAt: now,
+      updatedAt: now,
+      statusHistory: [
+        ...current.statusHistory,
+        {
+          id: `hist_${Date.now()}`,
+          reportId: current.id,
+          actorId: dto.actorId,
+          actorName: dto.actorName || (dto.actorRole === "system" ? "System Escalation Engine" : "Municipal Authority"),
+          actorRole: dto.actorRole,
+          previousStatus: current.status,
+          newStatus: current.status,
+          remarks: `AUTOMATIC ESCALATION TO LEVEL ${dto.targetLevel} (${roleTitle}): ${dto.reason || "SLA breach threshold exceeded."}`,
+          createdAt: now,
+        },
+      ],
+    };
+
+    reports[index] = updated;
+    this.saveStore(reports);
+
+    // Dispatch external notification safely
+    try {
+      await dispatchEscalationNotification(
+        updated,
+        dto.targetLevel,
+        dto.reason || "SLA breach threshold exceeded."
+      );
+    } catch (notifErr) {
+      console.warn("[MockCivicReportAdapter] Notification dispatch warning:", notifErr);
+    }
+
+    return updated;
+  }
+
+  async processSlaEscalations(options?: {
+    now?: number;
+    defaultSlaHours?: number;
+  }): Promise<SlaEscalationProcessResult> {
+    const reports = this.getStore();
+    const nowMs = options?.now || Date.now();
+
+    let scannedCount = 0;
+    let escalatedCount = 0;
+    let skippedResolvedCount = 0;
+    let skippedAlreadyEscalatedCount = 0;
+    const escalations: SlaEscalationProcessResult["escalations"] = [];
+
+    const terminalStatuses = ["resolved", "closed", "rejected", "duplicate", "cancelled"];
+
+    for (let i = 0; i < reports.length; i++) {
+      const report = reports[i];
+      scannedCount++;
+
+      if (terminalStatuses.includes(report.status)) {
+        skippedResolvedCount++;
+        continue;
+      }
+
+      const evalResult = evaluateEscalation(report, nowMs);
+      if (!evalResult || !evalResult.eligible) {
+        if (report.escalationLevel && report.escalationLevel > 1) {
+          skippedAlreadyEscalatedCount++;
+        }
+        continue;
+      }
+
+      // Perform escalation
+      const escalated = await this.escalateReport({
+        reportId: report.id,
+        targetLevel: evalResult.toLevel,
+        actorId: "system_cron",
+        actorRole: "system",
+        actorName: "Cloud Scheduler Escalation Engine",
+        reason: evalResult.reason,
+      });
+
+      escalatedCount++;
+      escalations.push({
+        reportId: escalated.id,
+        referenceNumber: escalated.referenceNumber,
+        fromLevel: evalResult.fromLevel,
+        toLevel: evalResult.toLevel,
+        targetRole: evalResult.targetRole,
+        reason: evalResult.reason,
+        breachedAt: evalResult.breachedAt,
+      });
+    }
+
+    return {
+      scannedCount,
+      escalatedCount,
+      skippedResolvedCount,
+      skippedAlreadyEscalatedCount,
+      escalations,
+    };
   }
 
   async getCategories(): Promise<CivicReportCategory[]> {

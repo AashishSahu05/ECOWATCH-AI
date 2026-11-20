@@ -3,7 +3,7 @@ import { AuthSplitLayout } from "@/components/auth/AuthSplitLayout";
 import { LoginForm } from "@/components/auth/LoginForm";
 
 export const metadata = {
-  title: "Sign In — Nagardrishti AI",
+  title: "Sign In — NagarDrishti AI",
   description:
     "Secure role-based access for Citizens, Municipal Officers, and System Administrators.",
 };
@@ -11,8 +11,8 @@ export const metadata = {
 export default function LoginPage() {
   return (
     <AuthSplitLayout
-      heading="Welcome to Nagardrishti AI"
-      subheading="Select your portal role or enter your credentials to access your dashboard."
+      heading="Welcome to NagarDrishti AI"
+      subheading="Sign in to access your NagarDrishti portal."
     >
       <Suspense
         fallback={

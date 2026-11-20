@@ -28,6 +28,8 @@ export async function POST(
       citizenId: citizen.id,
       rating: validated.rating,
       feedbackComment: validated.feedbackComment,
+      action: validated.action,
+      isResolvedConfirmed: validated.isResolvedConfirmed,
     });
 
     return NextResponse.json(updated, { status: 200 });

@@ -185,7 +185,10 @@ export type CivicNotificationTemplate =
   | "crew_on_site"
   | "cleanup_completed_pending_review"
   | "remediation_certified"
-  | "remediation_rejected";
+  | "remediation_rejected"
+  | "escalation_level_2"
+  | "escalation_level_3"
+  | "complaint_reopened";
 
 export type CivicNotificationStatus = "queued" | "sent" | "delivered" | "failed";
 

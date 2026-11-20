@@ -47,7 +47,7 @@ export default function ProtectedLayout({
 
   return (
     <div className="flex-1 flex flex-col bg-brand-cloud-white min-h-screen">
-      {/* Sole Dedicated Navigation for Authenticated Routes */}
+      {/* Top Horizontal Navbar for All Authenticated Routes */}
       <DashboardNav currentSection={getSectionTitle()} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -55,11 +55,11 @@ export default function ProtectedLayout({
       </main>
 
       {/* Dedicated Authenticated App Footer */}
-      <footer className="border-t border-brand-soft-sage/80 py-5 text-xs text-brand-muted-slate font-inter bg-brand-cloud-white mt-auto">
+      <footer className="border-t border-brand-soft-sage/80 py-5 text-xs text-brand-muted-slate font-inter bg-white mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <p className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-brand-fresh-green shrink-0" />
-            <span className="font-bold text-brand-deep-green font-manrope">Nagardrishti AI</span>
+            <span className="w-2 h-2 rounded-full bg-[#143D2B] shrink-0" />
+            <span className="font-bold text-brand-deep-green font-manrope">NAGARDRISHTI AI</span>
             <span>•</span>
             <span>Civic Environmental Intelligence</span>
           </p>

@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/auth/context";
 import { RoleBadge } from "@/components/auth/RoleBadge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { MunicipalAccountabilityConsole } from "@/components/admin/MunicipalAccountabilityConsole";
 import {
   ShieldCheck,
   Building,
@@ -52,6 +53,9 @@ export default function AdminDashboardPage() {
           </Button>
         </div>
       </div>
+
+      {/* Municipal Accountability & Escalation Engine Console */}
+      <MunicipalAccountabilityConsole />
 
       {/* Governance Metrics */}
       <div id="system" className="grid grid-cols-1 md:grid-cols-3 gap-6 scroll-mt-20">

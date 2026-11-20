@@ -50,29 +50,49 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5. Execute server-side Gemini analysis with Zod validation & timeout fallback
-    const aiAnalysis = await analyzeCivicImage(
-      buffer,
-      file.type,
-      userSelectedCategory || undefined
-    );
-
-    // 6. Generate inline preview URL
+    // 5. Generate inline preview URL early so it is preserved even if AI fails
     const base64Preview = `data:${file.type};base64,${buffer.toString("base64")}`;
 
-    return NextResponse.json(
-      {
-        analysis: aiAnalysis,
-        previewUrl: base64Preview,
-        fileSizeBytes: buffer.length,
-        mimeType: file.type,
-      },
-      { status: 200 }
-    );
+    // 6. Execute server-side Gemini analysis with Zod validation & timeout fallback
+    try {
+      const aiAnalysis = await analyzeCivicImage(
+        buffer,
+        file.type,
+        userSelectedCategory || undefined,
+        { throwOnFailure: true }
+      );
+
+      return NextResponse.json(
+        {
+          success: true,
+          aiAnalysisStatus: "COMPLETED",
+          analysis: aiAnalysis,
+          previewUrl: base64Preview,
+          fileSizeBytes: buffer.length,
+          mimeType: file.type,
+        },
+        { status: 200 }
+      );
+    } catch (analysisError: any) {
+      console.warn("[CivicAnalyzeAPI] Gemini analysis unavailable:", analysisError?.message);
+
+      // Graceful AI failure handling: do not block report submission, preserve photo & GPS
+      return NextResponse.json(
+        {
+          success: false,
+          aiAnalysisStatus: "FAILED",
+          error: "AI analysis temporarily unavailable",
+          previewUrl: base64Preview,
+          fileSizeBytes: buffer.length,
+          mimeType: file.type,
+        },
+        { status: 200 }
+      );
+    }
   } catch (error: any) {
     const authResponse = authenticationErrorResponse(error);
     if (authResponse) return authResponse;
-    console.error("[CivicAnalyzeAPI] Error:", error);
+    console.error("[CivicAnalyzeAPI] Request Error:", error);
     return NextResponse.json(
       { error: error?.message || "Failed to analyze civic incident image." },
       { status: 500 }
