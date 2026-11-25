@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { getCivicReportAdapter } from "@/lib/civic/adapter";
 import { CivicReportCreateSchema, CivicReportFilterSchema } from "@/lib/civic/schema";
-import { authenticationErrorResponse, requireServerIdentity, requireServerRole } from "@/lib/auth/server";
+import {
+  authenticationErrorResponse,
+  requireServerIdentity,
+  requireServerRole,
+} from "@/lib/auth/server";
+import { scopeAnalyticsWard } from "@/lib/analytics/api-helper";
 
 export async function POST(request: Request) {
   try {
@@ -93,7 +98,17 @@ export async function GET(request: Request) {
     const adapter = getCivicReportAdapter();
 
     // The caller's verified role determines scope; query parameters cannot elevate access.
-    if (user.role === "municipal_officer" || user.role === "administrator") {
+    if (user.role === "municipal_officer") {
+      const requestedWard = filter.serviceAreaId === "all" ? undefined : filter.serviceAreaId;
+      const scopedWard = scopeAnalyticsWard(user, requestedWard);
+      const data = await adapter.getReportsForOfficer({
+        ...filter,
+        serviceAreaId: scopedWard,
+      } as any);
+      return NextResponse.json(data, { status: 200 });
+    }
+
+    if (user.role === "administrator") {
       const data = await adapter.getReportsForOfficer(filter as any);
       return NextResponse.json(data, { status: 200 });
     }
@@ -103,6 +118,9 @@ export async function GET(request: Request) {
   } catch (error: any) {
     const authResponse = authenticationErrorResponse(error);
     if (authResponse) return authResponse;
+    if (error?.name === "ForbiddenError" || error?.status === 403) {
+      return NextResponse.json({ error: error.message || "Forbidden" }, { status: 403 });
+    }
     console.error("[CivicReportListAPI] Error:", error);
     return NextResponse.json(
       { error: error?.message || "Failed to list civic reports." },

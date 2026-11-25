@@ -11,10 +11,12 @@ export const INITIAL_PROPOSED_SLA_HOURS = 12;
 export const SLA_ADVISORY_NOTICE =
   "Initial proposed complaint SLA: 12 hours. Advisory administrative operational target — not a universal statutory legal requirement.";
 
-let _configuredSlaHours = INITIAL_PROPOSED_SLA_HOURS;
+const globalForSla = globalThis as unknown as {
+  __nagardrishtiSlaHours?: number;
+};
 
 export function getConfiguredSlaHours(): number {
-  return _configuredSlaHours;
+  return globalForSla.__nagardrishtiSlaHours ?? INITIAL_PROPOSED_SLA_HOURS;
 }
 
 export function setConfiguredSlaHours(hours: number): {
@@ -25,10 +27,10 @@ export function setConfiguredSlaHours(hours: number): {
   if (hours < 1 || hours > 168) {
     throw new Error("SLA window must be between 1 and 168 hours (7 days).");
   }
-  _configuredSlaHours = hours;
+  globalForSla.__nagardrishtiSlaHours = hours;
   return {
     success: true,
-    configuredHours: _configuredSlaHours,
+    configuredHours: globalForSla.__nagardrishtiSlaHours,
     notice: SLA_ADVISORY_NOTICE,
   };
 }

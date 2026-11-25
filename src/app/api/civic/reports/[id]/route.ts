@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { getCivicReportAdapter } from "@/lib/civic/adapter";
-import { authenticationErrorResponse, requireServerIdentity } from "@/lib/auth/server";
+import {
+  authenticationErrorResponse,
+  requireServerIdentity,
+  assertMunicipalWardAccess,
+} from "@/lib/auth/server";
 
 export async function GET(
   request: Request,
@@ -21,6 +25,10 @@ export async function GET(
 
     if (user.role === "citizen" && report.citizenId !== user.id) {
       return NextResponse.json({ error: "Forbidden: report access is limited to its owner" }, { status: 403 });
+    }
+
+    if (user.role === "municipal_officer") {
+      assertMunicipalWardAccess(user, report.location.serviceAreaId || undefined);
     }
 
     return NextResponse.json(report, { status: 200 });

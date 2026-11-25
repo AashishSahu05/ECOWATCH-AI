@@ -93,20 +93,27 @@ export function MunicipalAccountabilityConsole() {
   const [slaHoursInput, setSlaHoursInput] = useState(12);
   const [isUpdatingSla, setIsUpdatingSla] = useState(false);
   const [slaFeedback, setSlaFeedback] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isRunningEscalation, setIsRunningEscalation] = useState(false);
 
   const fetchData = async () => {
     setIsLoading(true);
+    setError(null);
     try {
       const res = await fetch("/api/admin/accountability");
-      if (res.ok) {
-        const json = await res.json();
-        setData(json);
-        if (json.slaConfiguration?.configuredSlaHours) {
-          setSlaHoursInput(json.slaConfiguration.configuredSlaHours);
-        }
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error(errBody.error || `Failed to load accountability data (HTTP ${res.status})`);
+      }
+      const json = await res.json();
+      setData(json);
+      if (json.slaConfiguration?.configuredSlaHours) {
+        setSlaHoursInput(json.slaConfiguration.configuredSlaHours);
       }
     } catch (err) {
-      console.error("[AccountabilityConsole] Fetch error:", err);
+      setError(
+        err instanceof Error ? err.message : "Unable to load municipal accountability metrics."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -115,6 +122,27 @@ export function MunicipalAccountabilityConsole() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleRunEscalationCheck = async () => {
+    setIsRunningEscalation(true);
+    setSlaFeedback(null);
+    try {
+      const res = await fetch("/api/cron/escalate", { method: "POST" });
+      const result = await res.json();
+      if (res.ok) {
+        setSlaFeedback(
+          `SLA check completed: scanned ${result.scannedCount ?? 0} reports, escalated ${result.escalatedCount ?? 0}.`
+        );
+        await fetchData();
+      } else {
+        setSlaFeedback(result.error || "Failed to run SLA escalation check.");
+      }
+    } catch (err: any) {
+      setSlaFeedback(err?.message || "Failed to execute SLA escalation check.");
+    } finally {
+      setIsRunningEscalation(false);
+    }
+  };
 
   const handleUpdateSla = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,15 +192,40 @@ export function MunicipalAccountabilityConsole() {
             Automated SLA tracking, hierarchical escalation enforcement, and citizen reopen surveillance.
           </p>
         </div>
-        <button
-          onClick={fetchData}
-          disabled={isLoading}
-          className="px-3 py-1.5 rounded-xl bg-brand-cloud-white hover:bg-brand-mint-cream border border-brand-soft-sage text-xs font-bold text-brand-deep-green flex items-center gap-1.5 transition-colors self-start sm:self-auto"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`} />
-          <span>Refresh Live Ledger</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={handleRunEscalationCheck}
+            disabled={isRunningEscalation || isLoading}
+            className="px-3.5 py-1.5 rounded-xl bg-[#143F2D] hover:bg-[#23523F] text-[#FAFCF9] text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+          >
+            <ShieldAlert className="w-3.5 h-3.5" />
+            <span>{isRunningEscalation ? "Running Escalations..." : "Run SLA Escalation Check"}</span>
+          </button>
+          <button
+            type="button"
+            onClick={fetchData}
+            disabled={isLoading}
+            className="px-3 py-1.5 rounded-xl bg-[#FAFCF9] hover:bg-[#F1F5F3] border border-[#D5E0DA] text-xs font-bold text-[#143F2D] flex items-center gap-1.5 transition-colors cursor-pointer"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            <span>Refresh Live Ledger</span>
+          </button>
+        </div>
       </div>
+
+      {error && (
+        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 flex items-center justify-between gap-4 text-xs">
+          <span>{error}</span>
+          <button
+            type="button"
+            onClick={fetchData}
+            className="px-3 py-1 rounded-lg bg-[#143F2D] text-[#FAFCF9] font-bold cursor-pointer"
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {/* 4 Summary Accountability Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

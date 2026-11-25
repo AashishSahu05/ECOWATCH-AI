@@ -8,10 +8,8 @@ import { CivicStatusBadge } from "@/components/civic/CivicStatusBadge";
 import { CivicPriorityBadge } from "@/components/civic/CivicPriorityBadge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { getCivicReportAdapter } from "@/lib/civic/adapter";
-import { getAnalyticsAdapter } from "@/lib/analytics/adapter";
 import { CivicReport } from "@/lib/civic/types";
-import { MunicipalKPISnapshot, WorkloadMetrics } from "@/lib/analytics/types";
+import { MunicipalKPISnapshot } from "@/lib/analytics/types";
 import {
   AlertTriangle,
   Clock,
@@ -23,40 +21,55 @@ import {
   RefreshCw,
   ClipboardList,
   Flame,
+  AlertCircle,
 } from "lucide-react";
 
 export default function OfficerDashboardPage() {
   const { user } = useAuth();
   const [reports, setReports] = useState<CivicReport[]>([]);
   const [kpi, setKpi] = useState<MunicipalKPISnapshot | null>(null);
-  const [workload, setWorkload] = useState<WorkloadMetrics | null>(null);
+  const [squadCount, setSquadCount] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const loadDashboardData = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const [reportsRes, kpiRes, squadsRes] = await Promise.all([
+        fetch("/api/civic/reports?view=officer"),
+        fetch("/api/analytics/kpi"),
+        fetch("/api/operations/squads"),
+      ]);
+
+      if (!reportsRes.ok) {
+        const errBody = await reportsRes.json().catch(() => ({}));
+        throw new Error(errBody.error || `Failed to load officer reports (HTTP ${reportsRes.status})`);
+      }
+
+      const reportsJson = await reportsRes.json();
+      setReports(reportsJson.reports || []);
+
+      if (kpiRes.ok) {
+        const kpiJson = await kpiRes.json();
+        setKpi(kpiJson.data || kpiJson);
+      }
+
+      if (squadsRes.ok) {
+        const squadsJson = await squadsRes.json();
+        const squads = squadsJson.data?.squads || squadsJson.squads || [];
+        setSquadCount(Array.isArray(squads) ? squads.length : 0);
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Unable to load municipal officer dashboard."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function loadDashboardData() {
-      setIsLoading(true);
-      try {
-        const civicAdapter = getCivicReportAdapter();
-        const analyticsAdapter = getAnalyticsAdapter();
-
-        // 1. Fetch live/seed civic reports for triage queue
-        const reportResult = await civicAdapter.getReportsForOfficer();
-        setReports(reportResult.reports || []);
-
-        // 2. Fetch dynamic analytics snapshot
-        const kpiSnapshot = await analyticsAdapter.getKPISnapshot({ wardId: "ward_04" });
-        setKpi(kpiSnapshot);
-
-        // 3. Fetch officer squad workload
-        const workloadData = await analyticsAdapter.getOfficerWorkload({ wardId: "ward_04" });
-        setWorkload(workloadData);
-      } catch (err) {
-        console.error("[OfficerDashboard] Failed to load data:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
     loadDashboardData();
   }, []);
 
@@ -130,7 +143,24 @@ export default function OfficerDashboardPage() {
         </div>
       </div>
 
-      {/* 2. Urgent Operational Alert Banner (Shown when critical incidents are active) */}
+      {/* 2. API Error Banner */}
+      {error && (
+        <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5 text-xs font-medium">
+            <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+            <span>{error}</span>
+          </div>
+          <button
+            type="button"
+            onClick={loadDashboardData}
+            className="px-3 py-1.5 rounded-xl bg-[#143F2D] text-[#FAFCF9] text-xs font-bold font-manrope hover:bg-[#23523F] transition-colors cursor-pointer"
+          >
+            Retry
+          </button>
+        </div>
+      )}
+
+      {/* 3. Urgent Operational Alert Banner (Shown when critical incidents are active) */}
       {criticalReports.length > 0 && (
         <div className="p-4 rounded-2xl bg-amber-50/90 border border-amber-300 text-amber-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
           <div className="flex items-start gap-3">
@@ -173,7 +203,7 @@ export default function OfficerDashboardPage() {
             {isLoading ? "—" : assignedReports.length}
           </div>
           <div className="flex items-center justify-between text-xs text-[#4A6558] mt-3 pt-3 border-t border-[#D5E0DA]/70 font-inter">
-            <span>{workload?.totalAssignedSquads || 0} squads active</span>
+            <span>{squadCount} squads active</span>
             <Link
               href="/officer/reports"
               className="text-[#143F2D] font-semibold hover:underline inline-flex items-center gap-0.5"
@@ -402,7 +432,7 @@ export default function OfficerDashboardPage() {
                 <span className="text-xs font-bold font-manrope text-brand-deep-green">
                   Ward 04 Rapid Clean Squad B
                 </span>
-                <span className="text-[10px] font-mono font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-mono font-bold bg-[#F1F5F3] text-[#143F2D] border border-[#D5E0DA] px-2 py-0.5 rounded-full">
                   Dispatched
                 </span>
               </div>
