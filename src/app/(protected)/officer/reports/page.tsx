@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { CivicReport, CivicReportStatus, CivicCategoryId } from "@/lib/civic/types";
 import { CIVIC_CATEGORIES } from "@/lib/civic/categories";
 import { CIVIC_SERVICE_AREAS } from "@/lib/civic/service-areas";
@@ -18,7 +19,10 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export default function OfficerReportsQueuePage() {
+function OfficerReportsQueueContent() {
+  const searchParams = useSearchParams();
+  const initialCategory = (searchParams?.get("category") as CivicCategoryId) || "all";
+
   const [reports, setReports] = useState<CivicReport[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,8 +30,13 @@ export default function OfficerReportsQueuePage() {
   // Filters
   const [statusFilter, setStatusFilter] = useState<CivicReportStatus | "all">("all");
   const [wardFilter, setWardFilter] = useState<string>("all");
-  const [categoryFilter, setCategoryFilter] = useState<CivicCategoryId | "all">("all");
+  const [categoryFilter, setCategoryFilter] = useState<CivicCategoryId | "all">(initialCategory);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const paramCat = (searchParams?.get("category") as CivicCategoryId) || "all";
+    setCategoryFilter(paramCat);
+  }, [searchParams]);
 
   // Modals state
   const [selectedReportForAction, setSelectedReportForAction] = useState<CivicReport | null>(null);
@@ -369,6 +378,14 @@ export default function OfficerReportsQueuePage() {
         </>
       )}
     </div>
+  );
+}
+
+export default function OfficerReportsQueuePage() {
+  return (
+    <Suspense fallback={<div className="p-8 text-center text-xs font-mono text-[#4A6558]">Loading queue...</div>}>
+      <OfficerReportsQueueContent />
+    </Suspense>
   );
 }
 

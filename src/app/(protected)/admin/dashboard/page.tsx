@@ -25,40 +25,47 @@ export default function AdminDashboardPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Admin Header */}
-      <div className="rounded-3xl bg-white text-brand-deep-green p-6 sm:p-8 border border-brand-soft-sage shadow-card flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-white text-[#143F2D] p-6 sm:p-8 border border-[#D5E0DA] shadow-card flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2">
-          <div className="flex items-center gap-2.5">
-            <h1 className="text-2xl sm:text-3xl font-extrabold font-manrope text-brand-deep-green">
-              System Governance Console
+          <div className="flex flex-wrap items-center gap-2.5">
+            <h1 className="text-2xl sm:text-3xl font-extrabold font-manrope text-[#143F2D]">
+              Welcome, Administrator
             </h1>
             <RoleBadge role="administrator" size="md" />
+            {user?.fullName && (
+              <span className="text-xs font-mono font-semibold text-[#4A6558] bg-[#F1F5F3] border border-[#D5E0DA] px-2.5 py-0.5 rounded-full">
+                {user.fullName}
+              </span>
+            )}
           </div>
-          <p className="text-sm text-brand-muted-slate font-inter max-w-xl leading-relaxed">
-            Root administrative privileges. You possess overarching authority over municipal ward GIS
-            boundaries, officer account provisioning, system parameters, and audit compliance.
+          <p className="text-sm text-[#4A6558] font-inter max-w-2xl leading-relaxed">
+            City-wide governance console. Monitor municipal SLA accountability, ward jurisdictions,
+            officer assignments, escalation tiers, and audit compliance.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 shrink-0">
-          <Button href="/profile" variant="outline" size="sm">
-            Admin Profile
+          <Button href="/admin/analytics" variant="outline" size="sm">
+            City-Wide Analytics
           </Button>
           <Button
-            href="/officer/dashboard"
+            href="/officer/reports"
             variant="primary"
             size="sm"
             icon={<ArrowRight className="w-4 h-4" />}
           >
-            Audit Officer Console
+            All Complaints
           </Button>
         </div>
       </div>
 
       {/* Municipal Accountability & Escalation Engine Console */}
-      <MunicipalAccountabilityConsole />
+      <div id="accountability" className="scroll-mt-20">
+        <MunicipalAccountabilityConsole />
+      </div>
 
-      {/* Governance Metrics */}
-      <div id="system" className="grid grid-cols-1 md:grid-cols-3 gap-6 scroll-mt-20">
+      {/* Governance Metrics & Ward Management */}
+      <div id="wards" className="grid grid-cols-1 md:grid-cols-3 gap-6 scroll-mt-20">
         <Card hoverEffect className="bg-white">
           <div className="flex items-center justify-between mb-4">
             <span className="font-mono text-xs font-bold text-brand-forest-green bg-brand-soft-sage px-2.5 py-1 rounded-full">

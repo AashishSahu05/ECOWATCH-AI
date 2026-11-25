@@ -44,9 +44,9 @@ export function UserMenu() {
       <div className="flex items-center gap-2">
         <Link
           href="/login"
-          className="text-xs lg:text-sm px-4 py-2 rounded-xl bg-white text-[#143D2B] hover:bg-white/90 font-bold transition-all shadow-sm flex items-center gap-1.5"
+          className="text-xs lg:text-sm px-4 py-2 rounded-xl bg-[#143F2D] text-[#FAFCF9] hover:bg-[#23523F] font-bold transition-all shadow-sm flex items-center gap-1.5"
         >
-          <LogIn className="w-3.5 h-3.5 text-[#143D2B]" />
+          <LogIn className="w-3.5 h-3.5 text-[#FAFCF9]" />
           <span>Sign In</span>
         </Link>
       </div>
@@ -64,21 +64,21 @@ export function UserMenu() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 p-1.5 pr-2.5 rounded-full hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white/20 text-white"
+        className="flex items-center gap-2 p-1.5 pr-2.5 rounded-full hover:bg-[#F1F5F3] transition-colors focus:outline-none focus:ring-2 focus:ring-[#143F2D]/20 text-[#143F2D]"
         aria-expanded={isOpen}
       >
-        <div className="w-8 h-8 rounded-full bg-white text-[#143D2B] flex items-center justify-center font-bold text-xs font-manrope shadow-sm border border-white/20">
+        <div className="w-8 h-8 rounded-full bg-[#143F2D] text-[#FAFCF9] flex items-center justify-center font-bold text-xs font-manrope shadow-sm border border-[#23523F]">
           {user.fullName.charAt(0).toUpperCase()}
         </div>
         <div className="hidden sm:flex flex-col text-left">
-          <span className="text-xs font-bold font-manrope text-white leading-tight truncate max-w-[120px]">
+          <span className="text-xs font-bold font-manrope text-[#143F2D] leading-tight truncate max-w-[140px]">
             {user.fullName}
           </span>
-          <span className="text-[10px] text-white/70 capitalize font-mono leading-none">
+          <span className="text-[10px] text-[#4A6558] capitalize font-mono leading-none">
             {user.role.replace("_", " ")}
           </span>
         </div>
-        <ChevronDown className="w-3.5 h-3.5 text-white/70" />
+        <ChevronDown className="w-3.5 h-3.5 text-[#4A6558]" />
       </button>
 
       {isOpen && (

@@ -60,16 +60,28 @@ export default function OfficerDashboardPage() {
     loadDashboardData();
   }, []);
 
-  // Compute operational overview metrics dynamically
+  // Compute operational overview metrics dynamically from real backend reports
   const pendingTriageReports = reports.filter(
     (r) => r.status === "submitted" || r.status === "under_review"
   );
-  const activeReports = reports.filter((r) =>
-    ["submitted", "under_review", "verified", "assigned", "in_progress"].includes(r.status)
+  const assignedReports = reports.filter((r) =>
+    ["assigned", "in_progress", "reopened"].includes(r.status) || Boolean(r.currentAssignment)
+  );
+  const pendingReports = reports.filter((r) =>
+    ["submitted", "under_review", "verified", "assigned", "in_progress", "reopened"].includes(r.status)
+  );
+  const overdueReports = reports.filter(
+    (r) =>
+      !["resolved", "closed"].includes(r.status) &&
+      Boolean(r.slaDeadline) &&
+      new Date(r.slaDeadline as string).getTime() < Date.now()
+  );
+  const resolvedReports = reports.filter((r) =>
+    ["resolved", "closed"].includes(r.status)
   );
   const criticalReports = reports.filter(
     (r) =>
-      ["submitted", "under_review", "verified", "assigned", "in_progress"].includes(r.status) &&
+      ["submitted", "under_review", "verified", "assigned", "in_progress", "reopened"].includes(r.status) &&
       ((r.officialSeverity || r.advisorySeverity) === "high" ||
         (r.officialSeverity || r.advisorySeverity) === "critical")
   );
@@ -77,22 +89,24 @@ export default function OfficerDashboardPage() {
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* 1. Header: Officer Welcome & Ward Jurisdiction Command Center */}
-      <div className="rounded-3xl bg-white p-6 sm:p-8 border border-brand-soft-sage shadow-card flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div className="rounded-3xl bg-white p-6 sm:p-8 border border-[#D5E0DA] shadow-card flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="text-2xl sm:text-3xl font-extrabold font-manrope text-brand-deep-green tracking-tight">
-              Operations Console — {user?.fullName || "Marcus Bennett"}
+            <h1 className="text-2xl sm:text-3xl font-extrabold font-manrope text-[#143F2D] tracking-tight">
+              Welcome, {user?.fullName || "Municipal Officer"}
             </h1>
             <RoleBadge role="municipal_officer" size="md" />
-            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-[#F1F5F3] text-[#143F2D] border border-[#D5E0DA]">
+              <span className="w-2 h-2 rounded-full bg-[#23523F] animate-pulse" />
               On Duty
             </span>
           </div>
 
-          <p className="text-xs sm:text-sm text-brand-muted-slate font-inter max-w-2xl leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#4A6558] font-inter max-w-2xl leading-relaxed">
             Sanitation dispatch, incident triage, and SLA verification for{" "}
-            <strong className="text-brand-deep-green font-semibold">Ward 04 — South Lake District & Central Transit Corridor</strong>.
+            <strong className="text-[#143F2D] font-semibold">
+              {user?.ward || "Ward 04 — South Lake District & Central Transit Corridor"}
+            </strong>.
           </p>
         </div>
 
@@ -103,15 +117,15 @@ export default function OfficerDashboardPage() {
             size="md"
             icon={<ClipboardList className="w-4 h-4" />}
           >
-            Triage Queue ({pendingTriageReports.length})
+            Assigned Queue ({pendingReports.length})
           </Button>
           <Button
-            href="/officer/analytics"
+            href="/officer/cleanup"
             variant="outline"
             size="md"
-            icon={<BarChart3 className="w-4 h-4 text-brand-emerald" />}
+            icon={<BarChart3 className="w-4 h-4 text-[#143F2D]" />}
           >
-            Analytics & SLA
+            Cleanup &amp; Evidence
           </Button>
         </div>
       </div>
@@ -120,13 +134,13 @@ export default function OfficerDashboardPage() {
       {criticalReports.length > 0 && (
         <div className="p-4 rounded-2xl bg-amber-50/90 border border-amber-300 text-amber-950 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
+            <div className="w-8 h-8 rounded-lg bg-amber-600 text-white flex items-center justify-center shrink-0 mt-0.5 shadow-xs">
               <Flame className="w-4 h-4" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold text-amber-900">
-                  {criticalReports.length} Critical Incident{criticalReports.length > 1 ? "s" : ""} Pending Immediate Triage
+                  {criticalReports.length} High-Severity Incident{criticalReports.length > 1 ? "s" : ""} Pending Immediate Triage
                 </span>
               </div>
               <p className="text-xs text-amber-800/90 font-inter mt-0.5">
@@ -136,8 +150,8 @@ export default function OfficerDashboardPage() {
           </div>
 
           <Link
-            href="/officer/reports?severity=critical"
-            className="text-xs font-bold font-manrope px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white flex items-center gap-1.5 shrink-0 transition-colors shadow-xs"
+            href="/officer/reports"
+            className="text-xs font-bold font-manrope px-3.5 py-1.5 rounded-xl bg-[#143F2D] hover:bg-[#23523F] text-[#FAFCF9] flex items-center gap-1.5 shrink-0 transition-colors shadow-xs"
           >
             <span>Triage Urgent</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -145,92 +159,92 @@ export default function OfficerDashboardPage() {
         </div>
       )}
 
-      {/* 3. Four Core Dynamic Operational KPI Cards */}
+      {/* 3. Four Core Dynamic Operational KPI Cards (Real Metrics Only) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        {/* Card 1: Active Incidents */}
-        <Card hoverEffect className="bg-white border-brand-soft-sage">
+        {/* Card 1: Assigned Complaints */}
+        <Card hoverEffect className="bg-white border-[#D5E0DA]">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-bold text-brand-muted-slate font-inter uppercase tracking-wider">
-              Active Incidents
+            <h3 className="text-xs font-bold text-[#4A6558] font-inter uppercase tracking-wider">
+              Assigned Complaints
             </h3>
-            <AlertTriangle className="w-4 h-4 text-amber-600" />
+            <Truck className="w-4 h-4 text-[#143F2D]" />
           </div>
-          <div className="text-3xl font-extrabold font-manrope text-brand-deep-green mt-1">
-            {isLoading ? "—" : activeReports.length}
+          <div className="text-3xl font-extrabold font-manrope text-[#143F2D] mt-1">
+            {isLoading ? "—" : assignedReports.length}
           </div>
-          <div className="flex items-center justify-between text-xs text-brand-muted-slate mt-3 pt-3 border-t border-brand-soft-sage/60 font-inter">
-            <span>{pendingTriageReports.length} pending review</span>
+          <div className="flex items-center justify-between text-xs text-[#4A6558] mt-3 pt-3 border-t border-[#D5E0DA]/70 font-inter">
+            <span>{workload?.totalAssignedSquads || 0} squads active</span>
             <Link
               href="/officer/reports"
-              className="text-brand-emerald font-semibold hover:underline inline-flex items-center gap-0.5"
+              className="text-[#143F2D] font-semibold hover:underline inline-flex items-center gap-0.5"
             >
               Queue <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </Card>
 
-        {/* Card 2: Pending Verification */}
-        <Card hoverEffect className="bg-white border-brand-soft-sage">
+        {/* Card 2: Pending Complaints */}
+        <Card hoverEffect className="bg-white border-[#D5E0DA]">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-bold text-brand-muted-slate font-inter uppercase tracking-wider">
-              Pending Triage
+            <h3 className="text-xs font-bold text-[#4A6558] font-inter uppercase tracking-wider">
+              Pending Complaints
             </h3>
-            <Clock className="w-4 h-4 text-brand-emerald" />
+            <Clock className="w-4 h-4 text-[#23523F]" />
           </div>
-          <div className="text-3xl font-extrabold font-manrope text-brand-deep-green mt-1">
-            {isLoading ? "—" : pendingTriageReports.length}
+          <div className="text-3xl font-extrabold font-manrope text-[#143F2D] mt-1">
+            {isLoading ? "—" : pendingReports.length}
           </div>
-          <div className="flex items-center justify-between text-xs text-brand-muted-slate mt-3 pt-3 border-t border-brand-soft-sage/60 font-inter">
-            <span>Requires sign-off</span>
+          <div className="flex items-center justify-between text-xs text-[#4A6558] mt-3 pt-3 border-t border-[#D5E0DA]/70 font-inter">
+            <span>{pendingTriageReports.length} awaiting triage</span>
             <Link
-              href="/officer/reports?status=submitted"
-              className="text-brand-emerald font-semibold hover:underline inline-flex items-center gap-0.5"
+              href="/officer/reports?category=cat_dumping"
+              className="text-[#143F2D] font-semibold hover:underline inline-flex items-center gap-0.5"
             >
-              Verify <ArrowRight className="w-3 h-3" />
+              Dumping <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </Card>
 
-        {/* Card 3: Assigned Sanitation Crews */}
-        <Card hoverEffect className="bg-white border-brand-soft-sage">
+        {/* Card 3: Overdue Complaints */}
+        <Card hoverEffect className="bg-white border-[#D5E0DA]">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-bold text-brand-muted-slate font-inter uppercase tracking-wider">
-              Deployed Crews
+            <h3 className="text-xs font-bold text-[#4A6558] font-inter uppercase tracking-wider">
+              Overdue Complaints
             </h3>
-            <Truck className="w-4 h-4 text-blue-600" />
+            <AlertTriangle className="w-4 h-4 text-amber-600" />
           </div>
-          <div className="text-3xl font-extrabold font-manrope text-brand-deep-green mt-1">
-            {isLoading ? "—" : workload?.totalAssignedSquads || 2}
+          <div className="text-3xl font-extrabold font-manrope text-[#143F2D] mt-1">
+            {isLoading ? "—" : overdueReports.length}
           </div>
-          <div className="flex items-center justify-between text-xs text-brand-muted-slate mt-3 pt-3 border-t border-brand-soft-sage/60 font-inter">
-            <span>On collection routes</span>
-            <a
-              href="#operations"
-              className="text-brand-emerald font-semibold hover:underline inline-flex items-center gap-0.5"
+          <div className="flex items-center justify-between text-xs text-[#4A6558] mt-3 pt-3 border-t border-[#D5E0DA]/70 font-inter">
+            <span>Past SLA target</span>
+            <Link
+              href="/officer/cleanup"
+              className="text-[#143F2D] font-semibold hover:underline inline-flex items-center gap-0.5"
             >
-              Squads <ArrowRight className="w-3 h-3" />
-            </a>
+              Escalations <ArrowRight className="w-3 h-3" />
+            </Link>
           </div>
         </Card>
 
-        {/* Card 4: 24h SLA Compliance */}
-        <Card hoverEffect className="bg-white border-brand-soft-sage">
+        {/* Card 4: Resolved Complaints */}
+        <Card hoverEffect className="bg-white border-[#D5E0DA]">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-xs font-bold text-brand-muted-slate font-inter uppercase tracking-wider">
-              24h Compliance
+            <h3 className="text-xs font-bold text-[#4A6558] font-inter uppercase tracking-wider">
+              Resolved Complaints
             </h3>
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <CheckCircle2 className="w-4 h-4 text-[#23523F]" />
           </div>
-          <div className="text-3xl font-extrabold font-manrope text-brand-emerald mt-1">
-            {isLoading ? "—" : `${kpi?.slaCompliancePercentage || 92.5}%`}
+          <div className="text-3xl font-extrabold font-manrope text-[#143F2D] mt-1">
+            {isLoading ? "—" : resolvedReports.length}
           </div>
-          <div className="flex items-center justify-between text-xs text-brand-muted-slate mt-3 pt-3 border-t border-brand-soft-sage/60 font-inter">
-            <span>{kpi?.totalWasteClearedTonnes ? `${kpi.totalWasteClearedTonnes}t cleared` : "On-time rate"}</span>
+          <div className="flex items-center justify-between text-xs text-[#4A6558] mt-3 pt-3 border-t border-[#D5E0DA]/70 font-inter">
+            <span>{kpi?.totalWasteClearedTonnes ? `${kpi.totalWasteClearedTonnes}t cleared` : "Verified resolutions"}</span>
             <Link
               href="/officer/analytics"
-              className="text-brand-emerald font-semibold hover:underline inline-flex items-center gap-0.5"
+              className="text-[#143F2D] font-semibold hover:underline inline-flex items-center gap-0.5"
             >
-              Audits <ArrowRight className="w-3 h-3" />
+              Analytics <ArrowRight className="w-3 h-3" />
             </Link>
           </div>
         </Card>
