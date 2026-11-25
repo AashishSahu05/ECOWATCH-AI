@@ -50,7 +50,7 @@ export default function UnauthorizedPage() {
                 href={getDashboardHref()}
                 variant="primary"
                 size="md"
-                icon={<LayoutDashboard className="w-4 h-4 text-brand-mint" />}
+                icon={<LayoutDashboard className="w-4 h-4 text-[#FAFCF9]" />}
               >
                 Go to My Dashboard
               </Button>
@@ -69,7 +69,7 @@ export default function UnauthorizedPage() {
                 href="/login"
                 variant="primary"
                 size="md"
-                icon={<LogIn className="w-4 h-4 text-brand-mint" />}
+                icon={<LogIn className="w-4 h-4 text-[#FAFCF9]" />}
               >
                 Sign In With Authorized Account
               </Button>

@@ -237,7 +237,7 @@ export default function AboutPage() {
                     <span
                       className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
                         mod.active
-                          ? "bg-brand-lemon text-brand-deep-green font-bold border border-brand-lemon"
+                          ? "bg-[#23523F] text-[#FAFCF9] font-bold border border-[#23523F]"
                           : "bg-brand-soft-sage/60 text-brand-muted-slate"
                       }`}
                     >
@@ -273,7 +273,7 @@ export default function AboutPage() {
               href="/contact"
               variant="primary"
               size="lg"
-              icon={<ArrowRight className="w-4 h-4 text-brand-lemon" />}
+              icon={<ArrowRight className="w-4 h-4 text-[#FAFCF9]" />}
             >
               Connect With the Buildathon Team
             </Button>

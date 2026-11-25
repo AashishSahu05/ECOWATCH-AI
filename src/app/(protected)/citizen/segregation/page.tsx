@@ -272,7 +272,7 @@ export default function SmartSegregationPage() {
                     variant="primary"
                     size="lg"
                     onClick={handleAnalyze}
-                    icon={<Sparkles className="w-4 h-4 text-brand-mint" />}
+                    icon={<Sparkles className="w-4 h-4 text-[#FAFCF9]" />}
                     className="w-full sm:flex-1 font-bold"
                   >
                     Run AI Segregation Analysis

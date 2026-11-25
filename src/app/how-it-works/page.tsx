@@ -105,7 +105,7 @@ export default function HowItWorksPage() {
                 >
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-brand-forest-green/10 mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-xl bg-brand-deep-forest text-brand-mint flex items-center justify-center font-bold text-base shadow-sm">
+                      <div className="w-12 h-12 rounded-xl bg-brand-deep-forest text-[#FAFCF9] flex items-center justify-center font-bold text-base shadow-sm">
                         <IconComponent className="w-6 h-6" />
                       </div>
                       <div>

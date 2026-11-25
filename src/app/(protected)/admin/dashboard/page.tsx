@@ -97,10 +97,10 @@ export default function AdminDashboardPage() {
 
         <Card hoverEffect className="bg-white">
           <div className="flex items-center justify-between mb-4">
-            <span className="font-mono text-xs font-bold text-brand-mint bg-brand-deep-forest text-brand-warm-white px-2.5 py-1 rounded-full">
+            <span className="font-mono text-xs font-bold text-[#FAFCF9] bg-brand-deep-forest text-brand-warm-white px-2.5 py-1 rounded-full">
               Integration State
             </span>
-            <Server className="w-5 h-5 text-brand-mint" />
+            <Server className="w-5 h-5 text-[#FAFCF9]" />
           </div>
           <h3 className="font-manrope font-bold text-lg text-brand-deep-forest mb-1">
             Database Engine

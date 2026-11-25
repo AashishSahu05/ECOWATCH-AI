@@ -357,7 +357,7 @@ export function LiveCameraModal({
                       onClose();
                       onFallbackToUpload();
                     }}
-                    icon={<Upload className="w-3.5 h-3.5 text-brand-mint" />}
+                    icon={<Upload className="w-3.5 h-3.5 text-[#FAFCF9]" />}
                   >
                     Upload from Device
                   </Button>
@@ -390,7 +390,7 @@ export function LiveCameraModal({
                 size="lg"
                 onClick={handleCapturePhoto}
                 disabled={isLoading || isCapturing}
-                icon={<Camera className="w-4 h-4 text-brand-mint" />}
+                icon={<Camera className="w-4 h-4 text-[#FAFCF9]" />}
                 className="px-6 font-manrope font-bold text-sm shadow-md"
               >
                 {isCapturing ? "Processing..." : "Capture Photo"}

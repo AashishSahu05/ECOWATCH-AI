@@ -3,7 +3,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 interface ButtonBaseProps {
-  variant?: "primary" | "secondary" | "outline" | "ghost" | "lemon";
+  variant?: "primary" | "secondary" | "outline" | "ghost";
   size?: "sm" | "md" | "lg";
   className?: string;
   children: React.ReactNode;
@@ -36,15 +36,13 @@ export function Button({
 }: ButtonProps) {
   const variantStyles = {
     primary:
-      "bg-brand-emerald text-white hover:bg-[#1C6948] shadow-sm hover:shadow active:scale-[0.98] border border-brand-emerald/80",
+      "bg-[#143F2D] text-[#FAFCF9] hover:bg-[#23523F] shadow-sm hover:shadow active:scale-[0.98] border border-[#143F2D]",
     secondary:
-      "bg-brand-mint-cream text-brand-deep-green hover:bg-brand-soft-sage/70 active:scale-[0.98] border border-brand-soft-sage font-semibold",
+      "bg-[#23523F] text-[#FAFCF9] hover:bg-[#143F2D] active:scale-[0.98] border border-[#23523F] font-semibold",
     outline:
-      "bg-white text-brand-deep-green hover:bg-brand-mint-cream active:scale-[0.98] border border-brand-soft-sage/80 shadow-subtle",
+      "bg-[#FAFCF9] text-[#143F2D] hover:bg-[#F1F5F3] active:scale-[0.98] border border-[#D5E0DA] shadow-subtle",
     ghost:
-      "bg-transparent text-brand-deep-green hover:bg-brand-mint-cream/80 active:scale-[0.98]",
-    lemon:
-      "bg-brand-lemon text-brand-deep-green hover:bg-[#CCE095] font-bold shadow-subtle active:scale-[0.98] border border-brand-lemon",
+      "bg-transparent text-[#143F2D] hover:bg-[#F1F5F3] active:scale-[0.98]",
   };
 
   const sizeStyles = {
@@ -54,7 +52,7 @@ export function Button({
   };
 
   const baseStyles = cn(
-    "inline-flex items-center justify-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-emerald focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer",
+    "inline-flex items-center justify-center transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#143F2D] focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer",
     variantStyles[variant],
     sizeStyles[size],
     fullWidth ? "w-full" : "w-auto",

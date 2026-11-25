@@ -49,7 +49,7 @@ export function CoreCapabilities() {
                     <div className="w-12 h-12 rounded-xl bg-brand-mint-cream text-brand-emerald flex items-center justify-center border border-brand-soft-sage shadow-subtle">
                       <IconComponent className="w-6 h-6" />
                     </div>
-                    <span className="font-mono text-xs font-bold text-brand-deep-green bg-brand-lemon/70 px-2.5 py-1 rounded-full border border-brand-lemon">
+                    <span className="font-mono text-xs font-bold text-brand-deep-green bg-[#F1F5F3] px-2.5 py-1 rounded-full border border-[#23523F]">
                       MOD {cap.number}
                     </span>
                   </div>
@@ -91,7 +91,7 @@ export function CoreCapabilities() {
         <div className="mt-12 text-center">
           <Link
             href="/features"
-            className="inline-flex items-center gap-2 text-sm font-bold text-brand-emerald hover:text-brand-deep-green underline decoration-brand-lemon decoration-2 underline-offset-4"
+            className="inline-flex items-center gap-2 text-sm font-bold text-brand-emerald hover:text-brand-deep-green underline decoration-[#23523F] decoration-2 underline-offset-4"
           >
             Compare All 6 Capabilities Against Legacy Sanitation Methods
             <ArrowRight className="w-4 h-4" />

@@ -113,7 +113,7 @@ export function ImageUploader({ onImageSelected, disabled = false }: ImageUpload
             variant="primary"
             size="md"
             onClick={() => fileInputRef.current?.click()}
-            icon={<FolderOpen className="w-4 h-4 text-brand-mint" />}
+            icon={<FolderOpen className="w-4 h-4 text-[#FAFCF9]" />}
             disabled={disabled}
             className="shadow-sm font-semibold text-xs sm:text-sm"
           >

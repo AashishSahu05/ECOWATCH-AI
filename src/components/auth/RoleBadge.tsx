@@ -24,7 +24,7 @@ export function RoleBadge({ role, size = "sm", className }: RoleBadgeProps) {
     administrator: {
       label: "Administrator",
       icon: ShieldCheck,
-      classes: "bg-brand-deep-forest text-brand-mint border-brand-mint/40",
+      classes: "bg-brand-deep-forest text-[#FAFCF9] border-[#FAFCF9]/30",
     },
   };
 

@@ -45,9 +45,14 @@ export default function ProtectedLayout({
     return null; // Redirects via useEffect
   }
 
+  // Citizen routes use the dedicated persistent left-sidebar layout (CitizenSidebar)
+  if (pathname.startsWith("/citizen")) {
+    return <>{children}</>;
+  }
+
   return (
-    <div className="flex-1 flex flex-col bg-brand-cloud-white min-h-screen">
-      {/* Top Horizontal Navbar for All Authenticated Routes */}
+    <div className="flex-1 flex flex-col bg-[#FAFCF9] min-h-screen">
+      {/* Top Horizontal Navbar for Officer, Admin, and Profile Routes */}
       <DashboardNav currentSection={getSectionTitle()} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
@@ -55,16 +60,16 @@ export default function ProtectedLayout({
       </main>
 
       {/* Dedicated Authenticated App Footer */}
-      <footer className="border-t border-brand-soft-sage/80 py-5 text-xs text-brand-muted-slate font-inter bg-white mt-auto">
+      <footer className="border-t border-[#D5E0DA] py-5 text-xs text-[#4A6558] font-inter bg-white mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2.5">
           <p className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#143D2B] shrink-0" />
-            <span className="font-bold text-brand-deep-green font-manrope">NAGARDRISHTI AI</span>
+            <span className="w-2 h-2 rounded-full bg-[#143F2D] shrink-0" />
+            <span className="font-bold text-[#143F2D] font-manrope">NAGARDRISHTI AI</span>
             <span>•</span>
-            <span>Civic Environmental Intelligence</span>
+            <span>AI-DRIVEN URBAN ECOSYSTEM INTELLIGENCE</span>
           </p>
-          <p className="text-[11px] font-mono text-brand-muted-slate/80">
-            Ward 04 Municipal Operations System • Google Startup Buildathon
+          <p className="text-[11px] font-mono text-[#4A6558]">
+            Intelligence for Cities. Impact for People.
           </p>
         </div>
       </footer>

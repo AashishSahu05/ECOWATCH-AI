@@ -138,7 +138,7 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-[#143D2B] border-b border-[#1A4E37] text-white shadow-md">
+    <header className="sticky top-0 z-40 w-full bg-[#143F2D] border-b border-[#23523F] text-[#FAFCF9] shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Brand Logo & Name: NAGARDRISHTI AI */}
@@ -157,11 +157,11 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
                 className="h-7 sm:h-8 w-auto object-contain block"
               />
               <div className="flex flex-col">
-                <span className="font-extrabold font-manrope text-base sm:text-lg tracking-tight text-white leading-tight uppercase">
+                <span className="font-extrabold font-manrope text-base sm:text-lg tracking-tight text-[#FAFCF9] leading-tight uppercase">
                   NAGARDRISHTI AI
                 </span>
-                <span className="hidden sm:inline-block text-[9px] font-mono tracking-wider uppercase text-white/70 font-semibold leading-none">
-                  Civic Environmental Intelligence
+                <span className="hidden sm:inline-block text-[9px] font-mono tracking-wider uppercase text-[#FAFCF9]/75 font-semibold leading-none">
+                  AI-Driven Urban Ecosystem Intelligence
                 </span>
               </div>
             </Link>
@@ -171,8 +171,8 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
             </span>
           </div>
 
-          {/* Desktop Center Navigation Bar — Two-Color Deep Forest Green & Crisp White */}
-          <nav className="hidden lg:flex items-center gap-1.5 bg-black/15 p-1 rounded-full border border-white/10">
+          {/* Desktop Center Navigation Bar — Locked 3-Color Forest Green, Panel Green & Off-White */}
+          <nav className="hidden lg:flex items-center gap-1.5 bg-[#23523F] p-1 rounded-full border border-white/15">
             {activeNavItems.map((item) => {
               const active = isLinkActive(item);
               const Icon = item.icon;
@@ -183,11 +183,11 @@ export function DashboardNav({ currentSection }: DashboardNavProps) {
                   className={cn(
                     "px-3 xl:px-3.5 py-1.5 rounded-full text-xs font-semibold font-manrope transition-all duration-150 flex items-center gap-1.5 whitespace-nowrap",
                     active
-                      ? "bg-white text-[#143D2B] shadow-sm font-bold"
-                      : "text-white/80 hover:text-white hover:bg-white/10"
+                      ? "bg-[#FAFCF9] text-[#143F2D] shadow-sm font-bold"
+                      : "text-[#FAFCF9]/85 hover:text-[#FAFCF9] hover:bg-[#143F2D]/60"
                   )}
                 >
-                  <Icon className={cn("w-3.5 h-3.5 shrink-0", active ? "text-[#143D2B]" : "text-white/80")} />
+                  <Icon className={cn("w-3.5 h-3.5 shrink-0", active ? "text-[#143F2D]" : "text-[#FAFCF9]/85")} />
                   <span>{item.label}</span>
                 </Link>
               );

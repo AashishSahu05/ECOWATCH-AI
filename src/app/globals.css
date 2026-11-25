@@ -7,8 +7,13 @@
 :root {
   --font-manrope: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --brand-forest: #143F2D;
+  --brand-panel: #23523F;
+  --brand-off-white: #FAFCF9;
+  --brand-border: #D5E0DA;
+  --brand-muted: #4A6558;
   --background: #FAFCF9;
-  --foreground: #194735;
+  --foreground: #143F2D;
 }
 
 body {
@@ -21,7 +26,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  color: #194735;
+  color: #143F2D;
 }
 
 /* Custom subtle scrollbar */
@@ -32,15 +37,15 @@ h1, h2, h3, h4, h5, h6 {
   background: #FAFCF9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #DCEBDD;
+  background: #D5E0DA;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3B9B70;
+  background: #23523F;
 }
 
 /* Smooth selection styling */
 ::selection {
-  background-color: #D8EBA8;
-  color: #194735;
+  background-color: #23523F;
+  color: #FAFCF9;
 }

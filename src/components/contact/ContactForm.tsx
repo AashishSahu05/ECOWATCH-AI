@@ -105,8 +105,8 @@ export function ContactForm() {
   if (isSubmitted) {
     return (
       <div className="rounded-3xl bg-brand-soft-sage/40 border border-brand-leaf-green/40 p-8 sm:p-12 text-center space-y-4 animate-in fade-in duration-300">
-        <div className="w-14 h-14 rounded-full bg-brand-forest-green text-brand-mint flex items-center justify-center mx-auto shadow-sm">
-          <CheckCircle2 className="w-8 h-8 text-brand-mint" />
+        <div className="w-14 h-14 rounded-full bg-brand-forest-green text-[#FAFCF9] flex items-center justify-center mx-auto shadow-sm">
+          <CheckCircle2 className="w-8 h-8 text-[#FAFCF9]" />
         </div>
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-leaf-green/15 text-brand-forest-green border border-brand-leaf-green/30 text-xs font-semibold">
           Frontend Validation Passed • Simulated Submission
@@ -317,9 +317,9 @@ export function ContactForm() {
           disabled={isSubmitting}
           icon={
             isSubmitting ? (
-              <RefreshCw className="w-4 h-4 animate-spin text-brand-mint" />
+              <RefreshCw className="w-4 h-4 animate-spin text-[#FAFCF9]" />
             ) : (
-              <Send className="w-4 h-4 text-brand-mint" />
+              <Send className="w-4 h-4 text-[#FAFCF9]" />
             )
           }
         >

@@ -4,7 +4,7 @@ import { Badge } from "./Badge";
 
 interface SectionHeadingProps {
   badge?: string;
-  badgeVariant?: "leaf" | "mint" | "forest" | "sage" | "lemon" | "outline";
+  badgeVariant?: "leaf" | "mint" | "forest" | "sage" | "panel" | "outline";
   title: string;
   subtitle?: string;
   align?: "left" | "center";
@@ -36,7 +36,7 @@ export function SectionHeading({
         <Badge
           variant={badgeVariant}
           dot
-          className={cn("mb-4", isDark && "border-brand-lemon/40 text-brand-lemon bg-brand-deep-green/80")}
+          className={cn("mb-4", isDark && "border-white/25 text-[#FAFCF9] bg-[#23523F]")}
         >
           {badge}
         </Badge>
@@ -44,7 +44,7 @@ export function SectionHeading({
       <h2
         className={cn(
           "text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.15] font-manrope",
-          isDark ? "text-brand-cloud-white" : "text-brand-deep-green"
+          isDark ? "text-[#FAFCF9]" : "text-[#143F2D]"
         )}
       >
         {title}
@@ -53,7 +53,7 @@ export function SectionHeading({
         <p
           className={cn(
             "mt-4 text-base sm:text-lg leading-relaxed font-inter font-normal",
-            isDark ? "text-brand-mint-cream/80" : "text-brand-muted-slate"
+            isDark ? "text-[#FAFCF9]/80" : "text-[#4A6558]"
           )}
         >
           {subtitle}

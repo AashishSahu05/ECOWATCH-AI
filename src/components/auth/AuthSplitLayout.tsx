@@ -46,14 +46,14 @@ export function AuthSplitLayout({
       {/* ========================================================================= */}
       {/* DESKTOP LEFT PANEL (~42% Width) — Full Height 100dvh, Above the Fold      */}
       {/* ========================================================================= */}
-      <div className="hidden lg:flex lg:w-[42%] h-[100dvh] max-h-[100dvh] bg-gradient-to-b from-[#133A29] via-[#164734] to-[#194D37] text-white p-6 xl:p-8 2xl:p-10 flex-col justify-between shrink-0 border-r border-[#1B503A]/60 shadow-xl overflow-hidden">
+      <div className="hidden lg:flex lg:w-[42%] h-[100dvh] max-h-[100dvh] bg-gradient-to-b from-[#143F2D] via-[#1B4A37] to-[#23523F] text-[#FAFCF9] p-6 xl:p-8 2xl:p-10 flex-col justify-between shrink-0 border-r border-[#23523F] shadow-xl overflow-hidden">
         {/* Top Header / Seamless Official Logo & Brand Statement */}
         <div className="space-y-3">
           {/* Logo with zero visible box, border, or card background */}
           <div className="flex items-center">
             <Image
               src="/images/nagardrishti-logo.png"
-              alt="NagarDrishti AI — AI-Driven Urban Ecosystem Intelligence"
+              alt="NAGARDRISHTI AI — AI-Driven Urban Ecosystem Intelligence"
               width={320}
               height={92}
               priority
@@ -62,14 +62,14 @@ export function AuthSplitLayout({
           </div>
 
           <div className="space-y-1.5 pt-1">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-white/10 border border-white/20 text-white backdrop-blur-sm">
-              <Sparkles className="w-3 h-3 text-white" />
-              <span>CIVIC &amp; MUNICIPAL INTELLIGENCE</span>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-[#23523F] border border-[#FAFCF9]/20 text-[#FAFCF9]">
+              <Sparkles className="w-3 h-3 text-[#FAFCF9]" />
+              <span>AI-DRIVEN URBAN ECOSYSTEM INTELLIGENCE</span>
             </div>
-            <h1 className="text-2xl xl:text-[1.75rem] 2xl:text-3xl font-extrabold font-manrope tracking-tight leading-snug text-white">
+            <h1 className="text-2xl xl:text-[1.75rem] 2xl:text-3xl font-extrabold font-manrope tracking-tight leading-snug text-[#FAFCF9]">
               Intelligence for Cities.<br />Impact for People.
             </h1>
-            <p className="text-xs xl:text-sm text-brand-mint-cream/80 leading-relaxed font-inter max-w-sm">
+            <p className="text-xs xl:text-sm text-[#FAFCF9]/85 leading-relaxed font-inter max-w-sm">
               AI-powered municipal intelligence connecting citizens, urban data and municipal operations to build cleaner and more accountable cities.
             </p>
           </div>
@@ -77,23 +77,23 @@ export function AuthSplitLayout({
 
         {/* Center: Compact Bordered Feature Panel — 2 Key Capabilities */}
         <div className="my-auto py-3">
-          <div className="rounded-2xl bg-white/5 backdrop-blur-md border border-white/15 p-4 xl:p-5 space-y-3.5 shadow-sm">
-            <div className="text-[10px] font-mono font-bold tracking-wider text-white uppercase flex items-center gap-1.5 pb-2 border-b border-white/10">
-              <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+          <div className="rounded-2xl bg-[#23523F] border border-[#FAFCF9]/15 p-4 xl:p-5 space-y-3.5 shadow-sm">
+            <div className="text-[10px] font-mono font-bold tracking-wider text-[#FAFCF9] uppercase flex items-center gap-1.5 pb-2 border-b border-[#FAFCF9]/15">
+              <CheckCircle2 className="w-3.5 h-3.5 text-[#FAFCF9]" />
               <span>Core Capabilities</span>
             </div>
 
             <div className="space-y-3">
               {/* Capability 1 */}
               <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white shrink-0 mt-0.5">
-                  <AlertTriangle className="w-4 h-4 text-white" />
+                <div className="w-7 h-7 rounded-lg bg-[#143F2D] border border-[#FAFCF9]/15 flex items-center justify-center text-[#FAFCF9] shrink-0 mt-0.5">
+                  <AlertTriangle className="w-4 h-4 text-[#FAFCF9]" />
                 </div>
                 <div>
-                  <h2 className="text-xs xl:text-sm font-bold font-manrope text-white leading-tight">
+                  <h2 className="text-xs xl:text-sm font-bold font-manrope text-[#FAFCF9] leading-tight">
                     AI-Powered Illegal Dumping Intelligence
                   </h2>
-                  <p className="text-[11px] xl:text-xs text-brand-mint-cream/70 font-inter leading-relaxed mt-1">
+                  <p className="text-[11px] xl:text-xs text-[#FAFCF9]/80 font-inter leading-relaxed mt-1">
                     Identify recurring garbage dumping locations through citizen reports, GPS intelligence, AI image analysis and hotspot monitoring.
                   </p>
                 </div>
@@ -101,14 +101,14 @@ export function AuthSplitLayout({
 
               {/* Capability 2 */}
               <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white shrink-0 mt-0.5">
-                  <Truck className="w-4 h-4 text-white" />
+                <div className="w-7 h-7 rounded-lg bg-[#143F2D] border border-[#FAFCF9]/15 flex items-center justify-center text-[#FAFCF9] shrink-0 mt-0.5">
+                  <Truck className="w-4 h-4 text-[#FAFCF9]" />
                 </div>
                 <div>
-                  <h2 className="text-xs xl:text-sm font-bold font-manrope text-white leading-tight">
+                  <h2 className="text-xs xl:text-sm font-bold font-manrope text-[#FAFCF9] leading-tight">
                     Smart Waste Collection Monitoring
                   </h2>
-                  <p className="text-[11px] xl:text-xs text-brand-mint-cream/70 font-inter leading-relaxed mt-1">
+                  <p className="text-[11px] xl:text-xs text-[#FAFCF9]/80 font-inter leading-relaxed mt-1">
                     Track ward-wise collection schedules, identify missed pickups and help municipal officers improve collection accountability.
                   </p>
                 </div>
@@ -118,10 +118,10 @@ export function AuthSplitLayout({
         </div>
 
         {/* Bottom Trust & Buildathon Identification */}
-        <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-brand-mint-cream/70 font-mono">
+        <div className="pt-2 border-t border-[#FAFCF9]/15 flex items-center justify-between text-[10px] text-[#FAFCF9]/80 font-mono">
           <span className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3 h-3 text-white" />
-            Google Startup Buildathon Platform
+            <ShieldCheck className="w-3 h-3 text-[#FAFCF9]" />
+            NAGARDRISHTI AI
           </span>
           <span>Ward 04 Scale Telemetry</span>
         </div>
@@ -130,39 +130,39 @@ export function AuthSplitLayout({
       {/* ========================================================================= */}
       {/* MOBILE TOP BANNER (<lg) — Compact & Sleek Brand Showcase                  */}
       {/* ========================================================================= */}
-      <div className="lg:hidden bg-gradient-to-b from-[#133A29] via-[#164734] to-[#194D37] text-white p-4 sm:p-5 space-y-2.5 shadow-md">
+      <div className="lg:hidden bg-gradient-to-b from-[#143F2D] to-[#23523F] text-[#FAFCF9] p-4 sm:p-5 space-y-2.5 shadow-md">
         <div className="flex items-center justify-between">
           <Image
             src="/images/nagardrishti-logo.png"
-            alt="NagarDrishti AI — AI-Driven Urban Ecosystem Intelligence"
+            alt="NAGARDRISHTI AI — AI-Driven Urban Ecosystem Intelligence"
             width={200}
             height={57}
             priority
             className="h-8 sm:h-9 w-auto object-contain block"
           />
-          <span className="text-[9px] font-mono text-white px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20">
-            CIVIC &amp; MUNICIPAL INTELLIGENCE
+          <span className="text-[9px] font-mono text-[#FAFCF9] px-2.5 py-0.5 rounded-full bg-[#23523F] border border-[#FAFCF9]/20">
+            NAGARDRISHTI AI
           </span>
         </div>
 
         <div className="space-y-0.5">
-          <h1 className="text-base sm:text-lg font-extrabold font-manrope text-white tracking-tight leading-snug">
+          <h1 className="text-base sm:text-lg font-extrabold font-manrope text-[#FAFCF9] tracking-tight leading-snug">
             Intelligence for Cities. Impact for People.
           </h1>
-          <p className="text-[11px] text-brand-mint-cream/80 font-inter leading-tight">
+          <p className="text-[11px] text-[#FAFCF9]/85 font-inter leading-tight">
             AI-powered municipal intelligence connecting citizens, urban data and municipal operations to build cleaner and more accountable cities.
           </p>
         </div>
 
         {/* 2 Capabilities as Compact Pills */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-0.5 text-[10px] font-manrope font-semibold text-brand-mint-cream">
-          <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1 rounded-md">
-            <AlertTriangle className="w-3 h-3 text-white shrink-0" />
-            <span className="truncate">Illegal Dumping Intelligence</span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-0.5 text-[10px] font-manrope font-semibold text-[#FAFCF9]">
+          <div className="flex items-center gap-1.5 bg-[#143F2D]/60 border border-[#FAFCF9]/15 px-2.5 py-1 rounded-md">
+            <AlertTriangle className="w-3 h-3 text-[#FAFCF9] shrink-0" />
+            <span className="truncate">AI-Powered Illegal Dumping Intelligence</span>
           </div>
-          <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-2.5 py-1 rounded-md">
-            <Truck className="w-3 h-3 text-white shrink-0" />
-            <span className="truncate">Collection Monitoring</span>
+          <div className="flex items-center gap-1.5 bg-[#143F2D]/60 border border-[#FAFCF9]/15 px-2.5 py-1 rounded-md">
+            <Truck className="w-3 h-3 text-[#FAFCF9] shrink-0" />
+            <span className="truncate">Smart Waste Collection Monitoring</span>
           </div>
         </div>
       </div>

@@ -94,7 +94,7 @@ export function ProfileForm() {
       {/* Identity Summary Card */}
       <div className="p-5 sm:p-6 rounded-2xl bg-brand-soft-sage/40 border border-brand-forest-green/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-full bg-brand-deep-forest text-brand-mint flex items-center justify-center font-bold text-lg font-manrope shadow-sm border border-brand-mint/30">
+          <div className="w-12 h-12 rounded-full bg-brand-deep-forest text-[#FAFCF9] flex items-center justify-center font-bold text-lg font-manrope shadow-sm border border-[#FAFCF9]/30">
             {user.fullName.charAt(0).toUpperCase()}
           </div>
           <div>
@@ -223,7 +223,7 @@ export function ProfileForm() {
                 isUpdatingProfile ? (
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                 ) : (
-                  <Save className="w-3.5 h-3.5 text-brand-mint" />
+                  <Save className="w-3.5 h-3.5 text-[#FAFCF9]" />
                 )
               }
             >

@@ -55,8 +55,8 @@ export function ResetPasswordForm() {
   if (isSuccess) {
     return (
       <div className="space-y-4 text-center animate-in fade-in">
-        <div className="w-12 h-12 rounded-full bg-brand-forest-green text-brand-mint flex items-center justify-center mx-auto shadow-sm">
-          <CheckCircle2 className="w-6 h-6 text-brand-mint" />
+        <div className="w-12 h-12 rounded-full bg-brand-forest-green text-[#FAFCF9] flex items-center justify-center mx-auto shadow-sm">
+          <CheckCircle2 className="w-6 h-6 text-[#FAFCF9]" />
         </div>
         <h3 className="font-manrope font-bold text-lg text-brand-deep-forest">
           Password Updated Successfully
@@ -145,9 +145,9 @@ export function ResetPasswordForm() {
           disabled={isSubmitting}
           icon={
             isSubmitting ? (
-              <RefreshCw className="w-4 h-4 animate-spin text-brand-mint" />
+              <RefreshCw className="w-4 h-4 animate-spin text-[#FAFCF9]" />
             ) : (
-              <KeyRound className="w-4 h-4 text-brand-mint" />
+              <KeyRound className="w-4 h-4 text-[#FAFCF9]" />
             )
           }
         >

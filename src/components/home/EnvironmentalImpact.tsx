@@ -25,7 +25,7 @@ export function EnvironmentalImpact() {
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-xs font-bold text-brand-deep-green bg-brand-lemon px-2.5 py-1 rounded-full border border-brand-lemon/60">
+                  <span className="font-mono text-xs font-bold text-[#FAFCF9] bg-[#23523F] px-2.5 py-1 rounded-full border border-[#D5E0DA]">
                     {pillar.pillar}
                   </span>
                   <Globe2 className="w-5 h-5 text-brand-emerald/70" />

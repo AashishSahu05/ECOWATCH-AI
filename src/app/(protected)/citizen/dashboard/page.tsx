@@ -56,41 +56,41 @@ export default function CitizenDashboardPage() {
       {/* ======================================================== */}
       {/* 1. WELCOME SECTION & HERO ACTIONS                       */}
       {/* ======================================================== */}
-      <section className="bg-[#143D2B] rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-[#1B503A]/60">
+      <section className="bg-[#143F2D] rounded-3xl p-6 sm:p-8 text-[#FAFCF9] shadow-xl relative overflow-hidden border border-[#23523F]">
         <div className="relative z-10 space-y-6">
           {/* Header Title & Tagline */}
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-3 py-1 rounded-full text-[11px] font-mono font-bold text-white">
-              <ShieldCheck className="w-3.5 h-3.5 text-white" />
-              <span>CIVIC &amp; MUNICIPAL INTELLIGENCE</span>
-              <span className="text-white/60">•</span>
+            <div className="inline-flex items-center gap-2 bg-[#23523F] border border-[#FAFCF9]/20 px-3 py-1 rounded-full text-[11px] font-mono font-bold text-[#FAFCF9]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#FAFCF9]" />
+              <span>AI-DRIVEN URBAN ECOSYSTEM INTELLIGENCE</span>
+              <span className="text-[#FAFCF9]/60">•</span>
               <span>Ward 04</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-manrope tracking-tight text-white uppercase">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-manrope tracking-tight text-[#FAFCF9] uppercase">
               Welcome to NAGARDRISHTI AI
             </h1>
-            <p className="text-sm sm:text-base text-white/90 font-inter max-w-2xl leading-relaxed">
+            <p className="text-sm sm:text-base text-[#FAFCF9]/90 font-inter max-w-2xl leading-relaxed">
               Help make your neighbourhood cleaner. Report illegal dumping and track municipal action.
             </p>
           </div>
 
           {/* Action CTAs: Primary (Illegal Dumping) & Secondary (Missed Collection) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-            {/* PRIMARY CTA CARD: Report Illegal Garbage Dumping (Pure White Card with Forest Green CTA) */}
-            <div className="bg-white text-[#143D2B] rounded-2xl p-5 flex flex-col justify-between group shadow-md border border-white">
+            {/* PRIMARY CTA CARD: Report Illegal Garbage Dumping (Off-White Card with Forest Green CTA) */}
+            <div className="bg-[#FAFCF9] text-[#143F2D] rounded-2xl p-5 flex flex-col justify-between group shadow-md border border-[#D5E0DA]">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-[#143D2B] text-white flex items-center justify-center font-bold shadow-xs">
-                    <AlertTriangle className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 rounded-xl bg-[#143F2D] text-[#FAFCF9] flex items-center justify-center font-bold shadow-xs">
+                    <AlertTriangle className="w-5 h-5 text-[#FAFCF9]" />
                   </div>
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#143D2B] text-white px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider bg-[#23523F] text-[#FAFCF9] px-2.5 py-0.5 rounded-full">
                     PRIMARY ACTION
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold font-manrope text-[#143D2B]">
+                <h3 className="text-base sm:text-lg font-bold font-manrope text-[#143F2D]">
                   Illegal Garbage Dumping
                 </h3>
-                <p className="text-xs text-[#143D2B]/80 font-inter leading-relaxed">
+                <p className="text-xs text-[#4A6558] font-inter leading-relaxed">
                   Spotted roadside waste heaps, commercial trash dumping, or debris? Submit photographic evidence with instant AI analysis.
                 </p>
               </div>
@@ -98,30 +98,30 @@ export default function CitizenDashboardPage() {
               <div className="pt-4 mt-2">
                 <Link
                   href="/citizen/report"
-                  className="w-full py-3 px-4 rounded-xl bg-[#143D2B] hover:bg-[#113525] text-white text-xs font-bold font-manrope flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.99]"
+                  className="w-full py-3 px-4 rounded-xl bg-[#143F2D] hover:bg-[#23523F] text-[#FAFCF9] text-xs font-bold font-manrope flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.99]"
                 >
-                  <AlertTriangle className="w-4 h-4 text-white" />
+                  <AlertTriangle className="w-4 h-4 text-[#FAFCF9]" />
                   <span>Report Illegal Garbage Dumping</span>
-                  <ArrowRight className="w-4 h-4 text-white" />
+                  <ArrowRight className="w-4 h-4 text-[#FAFCF9]" />
                 </Link>
               </div>
             </div>
 
             {/* SECONDARY CTA CARD: Report Missed Collection */}
-            <div className="bg-white/10 border border-white/20 rounded-2xl p-5 hover:bg-white/15 transition-all flex flex-col justify-between group text-white">
+            <div className="bg-[#23523F] border border-[#FAFCF9]/20 rounded-2xl p-5 hover:bg-[#23523F]/90 transition-all flex flex-col justify-between group text-[#FAFCF9]">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="w-10 h-10 rounded-xl bg-white/15 text-white border border-white/20 flex items-center justify-center">
-                    <Truck className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 rounded-xl bg-[#143F2D] text-[#FAFCF9] border border-[#FAFCF9]/20 flex items-center justify-center">
+                    <Truck className="w-5 h-5 text-[#FAFCF9]" />
                   </div>
-                  <span className="text-[10px] font-mono text-white/80 uppercase font-semibold">
+                  <span className="text-[10px] font-mono text-[#FAFCF9]/80 uppercase font-semibold">
                     Door-to-Door Service
                   </span>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold font-manrope text-white">
+                <h3 className="text-base sm:text-lg font-bold font-manrope text-[#FAFCF9]">
                   Missed Waste Collection
                 </h3>
-                <p className="text-xs text-white/80 font-inter leading-relaxed">
+                <p className="text-xs text-[#FAFCF9]/85 font-inter leading-relaxed">
                   Did the municipal collection vehicle miss your street during the morning door-to-door window? File a quick dispatch request.
                 </p>
               </div>
@@ -129,11 +129,11 @@ export default function CitizenDashboardPage() {
               <div className="pt-4 mt-2">
                 <Link
                   href="/citizen/report?category=cat_missed_collection"
-                  className="w-full py-3 px-4 rounded-xl bg-white text-[#143D2B] hover:bg-white/90 text-xs font-bold font-manrope flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.99]"
+                  className="w-full py-3 px-4 rounded-xl bg-[#FAFCF9] text-[#143F2D] hover:bg-white text-xs font-bold font-manrope flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.99]"
                 >
-                  <Truck className="w-4 h-4 text-[#143D2B]" />
+                  <Truck className="w-4 h-4 text-[#143F2D]" />
                   <span>Report Missed Collection</span>
-                  <ArrowRight className="w-4 h-4 text-[#143D2B]" />
+                  <ArrowRight className="w-4 h-4 text-[#143F2D]" />
                 </Link>
               </div>
             </div>

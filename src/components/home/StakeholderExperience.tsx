@@ -43,7 +43,7 @@ export function StakeholderExperience() {
                   : "text-brand-deep-green hover:bg-white"
               )}
             >
-              <UserCheck className="w-4 h-4 text-brand-lemon" />
+              <UserCheck className="w-4 h-4 text-[#FAFCF9]" />
               <span>Citizen Experience</span>
             </button>
             <button
@@ -56,7 +56,7 @@ export function StakeholderExperience() {
                   : "text-brand-deep-green hover:bg-white"
               )}
             >
-              <Building2 className="w-4 h-4 text-brand-lemon" />
+              <Building2 className="w-4 h-4 text-[#FAFCF9]" />
               <span>Municipal Operations</span>
             </button>
           </div>
@@ -98,7 +98,7 @@ export function StakeholderExperience() {
                   href={activeTab === "citizen" ? "/how-it-works#citizen" : "/how-it-works#municipal"}
                   variant="primary"
                   size="md"
-                  icon={<ArrowRight className="w-4 h-4 text-brand-lemon" />}
+                  icon={<ArrowRight className="w-4 h-4 text-[#FAFCF9]" />}
                 >
                   Explore {activeTab === "citizen" ? "Citizen" : "Municipal"} Flow
                 </Button>

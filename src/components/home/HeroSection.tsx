@@ -18,7 +18,7 @@ export function HeroSection() {
     <section className="relative overflow-hidden pt-8 pb-16 md:pt-14 md:pb-24 lg:pt-20 lg:pb-28 bg-brand-cloud-white">
       {/* Decorative ambient background accents */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-brand-mint-cream/70 via-brand-soft-sage/30 to-transparent -z-10 pointer-events-none rounded-b-3xl" />
-      <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-brand-lemon/20 blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute top-20 right-10 w-72 h-72 rounded-full bg-[#23523F]/10 blur-3xl -z-10 pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-brand-fresh-green/10 blur-3xl -z-10 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -31,7 +31,7 @@ export function HeroSection() {
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-deep-green leading-[1.12] font-manrope">
               Intelligent waste infrastructure for{" "}
-              <span className="text-brand-fresh-green underline decoration-brand-lemon decoration-4 underline-offset-6">
+              <span className="text-brand-fresh-green underline decoration-[#23523F] decoration-4 underline-offset-6">
                 cleaner cities
               </span>{" "}
               and accountable communities.
@@ -48,7 +48,7 @@ export function HeroSection() {
                 href="/features"
                 variant="primary"
                 size="lg"
-                icon={<ArrowRight className="w-4 h-4 text-brand-lemon" />}
+                icon={<ArrowRight className="w-4 h-4 text-[#FAFCF9]" />}
               >
                 Explore Capabilities
               </Button>
@@ -84,7 +84,7 @@ export function HeroSection() {
                   <span className="font-manrope font-bold text-brand-deep-green">
                     Nagardrishti AI Sentinel
                   </span>
-                  <span className="text-[10px] bg-brand-lemon text-brand-deep-green px-2 py-0.5 rounded border border-brand-lemon/70 uppercase font-mono font-bold">
+                  <span className="text-[10px] bg-[#23523F] text-[#FAFCF9] px-2 py-0.5 rounded border border-[#D5E0DA] uppercase font-mono font-bold">
                     UI Demo
                   </span>
                 </div>
@@ -108,7 +108,7 @@ export function HeroSection() {
                   {/* Bounding Box Visual Simulation */}
                   <div className="relative aspect-video rounded-xl bg-gradient-to-br from-brand-mint-cream to-white border border-dashed border-brand-fresh-green/60 flex flex-col justify-between p-3.5 shadow-subtle">
                     <div className="flex justify-between items-start">
-                      <span className="bg-brand-lemon text-brand-deep-green text-[10px] font-mono font-bold px-2.5 py-0.5 rounded border border-brand-lemon/80 shadow-subtle">
+                      <span className="bg-[#23523F] text-[#FAFCF9] text-[10px] font-mono font-bold px-2.5 py-0.5 rounded border border-[#D5E0DA] shadow-subtle">
                         CLASS: COMPOSTABLE + RECYCLABLE
                       </span>
                       <span className="bg-brand-emerald text-white text-[10px] font-bold px-2 py-0.5 rounded shadow-subtle">

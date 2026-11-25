@@ -260,7 +260,7 @@ export default function OfficerOperationsPage() {
                   </p>
                 </div>
               </div>
-              <Badge variant="lemon" className="text-[11px]">
+              <Badge variant="panel" className="text-[11px]">
                 {gaps.length} Actionable Gaps
               </Badge>
             </div>

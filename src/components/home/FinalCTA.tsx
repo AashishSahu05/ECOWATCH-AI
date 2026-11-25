@@ -8,7 +8,7 @@ export function FinalCTA() {
   return (
     <section className="py-16 md:py-24 bg-brand-warm-beige/60 text-brand-deep-green relative overflow-hidden border-t border-brand-soft-sage">
       {/* Background ambient lighting */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-brand-lemon/20 blur-3xl -z-0 pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 rounded-full bg-[#23523F]/10 blur-3xl -z-0 pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-brand-mint-cream blur-3xl -z-0 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -36,7 +36,7 @@ export function FinalCTA() {
               href="/login"
               variant="primary"
               size="lg"
-              icon={<ArrowRight className="w-4 h-4 text-brand-lemon" />}
+              icon={<ArrowRight className="w-4 h-4 text-[#FAFCF9]" />}
             >
               Access Nagardrishti Platform
             </Button>

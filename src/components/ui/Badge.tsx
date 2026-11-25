@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "leaf" | "mint" | "forest" | "sage" | "lemon" | "outline";
+  variant?: "leaf" | "mint" | "forest" | "sage" | "panel" | "outline";
   dot?: boolean;
 }
 
@@ -14,21 +14,21 @@ export function Badge({
   ...props
 }: BadgeProps) {
   const variantStyles = {
-    leaf: "bg-brand-mint-cream text-brand-deep-green border border-brand-soft-sage font-semibold",
-    mint: "bg-brand-mint-cream/80 text-brand-emerald border border-brand-soft-sage/60 font-semibold",
-    forest: "bg-brand-emerald text-white border border-brand-emerald font-semibold",
-    sage: "bg-brand-soft-sage text-brand-deep-green border border-brand-soft-sage font-semibold",
-    lemon: "bg-brand-lemon text-brand-deep-green border border-brand-lemon/60 font-bold",
-    outline: "bg-white text-brand-deep-green border border-brand-soft-sage shadow-subtle font-medium",
+    leaf: "bg-[#F1F5F3] text-[#143F2D] border border-[#D5E0DA] font-semibold",
+    mint: "bg-[#F1F5F3] text-[#23523F] border border-[#D5E0DA] font-semibold",
+    forest: "bg-[#143F2D] text-[#FAFCF9] border border-[#143F2D] font-semibold",
+    panel: "bg-[#23523F] text-[#FAFCF9] border border-[#23523F] font-semibold",
+    sage: "bg-[#E8EFEA] text-[#143F2D] border border-[#D5E0DA] font-semibold",
+    outline: "bg-[#FAFCF9] text-[#143F2D] border border-[#D5E0DA] shadow-subtle font-medium",
   };
 
   const dotColors = {
-    leaf: "bg-brand-fresh-green",
-    mint: "bg-brand-emerald",
-    forest: "bg-white",
-    sage: "bg-brand-deep-green",
-    lemon: "bg-brand-emerald",
-    outline: "bg-brand-fresh-green",
+    leaf: "bg-[#23523F]",
+    mint: "bg-[#23523F]",
+    forest: "bg-[#FAFCF9]",
+    panel: "bg-[#FAFCF9]",
+    sage: "bg-[#143F2D]",
+    outline: "bg-[#23523F]",
   };
 
   return (

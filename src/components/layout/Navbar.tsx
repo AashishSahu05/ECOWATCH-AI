@@ -44,10 +44,10 @@ export function Navbar() {
             href="/"
             className="flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-emerald rounded-lg"
           >
-            <div className="bg-[#143D2B] px-2.5 py-1 rounded-lg flex items-center justify-center shadow-xs transition-opacity group-hover:opacity-95">
+            <div className="bg-[#143F2D] px-2.5 py-1 rounded-lg flex items-center justify-center shadow-xs transition-opacity group-hover:opacity-95">
               <Image
                 src="/images/nagardrishti-logo.png"
-                alt="Nagardrishti AI — AI-Driven Urban Ecosystem Intelligence"
+                alt="NAGARDRISHTI AI — AI-Driven Urban Ecosystem Intelligence"
                 width={160}
                 height={46}
                 priority

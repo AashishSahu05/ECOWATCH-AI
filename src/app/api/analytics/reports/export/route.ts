@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     if (format === "csv") {
       const csvContent = generateCSVString(records);
-      const filename = `ecowatch-municipal-audit-${today}.csv`;
+      const filename = `nagardrishti-municipal-audit-${today}.csv`;
 
       return new NextResponse(csvContent, {
         status: 200,

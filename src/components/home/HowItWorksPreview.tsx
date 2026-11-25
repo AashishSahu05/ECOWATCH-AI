@@ -82,7 +82,7 @@ export function HowItWorksPreview() {
             href="/how-it-works"
             variant="primary"
             size="md"
-            icon={<Workflow className="w-4 h-4 text-brand-lemon" />}
+            icon={<Workflow className="w-4 h-4 text-[#FAFCF9]" />}
           >
             Explore Complete Pipeline & FAQ
           </Button>
